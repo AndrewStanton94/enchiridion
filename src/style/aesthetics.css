@@ -1,0 +1,14 @@
+/* Use this file to change the appearance of elements.
+*/
+#menuPanel {
+	background-color: red;
+}
+
+article {
+	background-color: blue;
+}
+
+#addNewFragment {
+	color: green;
+	font-size: 5em;
+}

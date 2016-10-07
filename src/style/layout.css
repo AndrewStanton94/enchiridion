@@ -1,0 +1,16 @@
+/* Use this file to position elements.
+*/
+#main {
+	display: -webkit-flex;
+	display: flex;
+	height: 100%;
+}
+#menuPanel {
+	min-width: 200px;
+	width: 20%;
+}
+
+article {
+	-webkit-flex: 1;
+	flex: 1;
+}
