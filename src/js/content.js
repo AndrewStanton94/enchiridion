@@ -1,3 +1,4 @@
+'use strict';
 document.enchiridion = document.enchiridion || {};
 document.enchiridion.content = {
 	createElement: (elementName, data) => {
@@ -13,9 +14,7 @@ document.enchiridion.content = {
 				element.innerText = value;
 			}
 			else {
-				console.log(key)
-				console.log(value)
-				console.log(element);
+				console.log(`Setting ${key} : ${value} for ${element}`);
 				element.setAttribute(key, value);
 			}
 		});
