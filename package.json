@@ -1,0 +1,27 @@
+{
+  "name": "enchiridion",
+  "version": "0.0.1",
+  "description": "A transclusive content editor with stretchtext.",
+  "main": " ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://andrewstanton94@github.com/andrewstanton94/enchiridion.git"
+  },
+  "author": "Andrew Stanton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrewstanton94/enchiridion/issues"
+  },
+  "homepage": "https://github.com/andrewstanton94/enchiridion#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "jshint-stylish": "^2.2.0",
+    "load-grunt-tasks": "^3.5.0"
+  }
+}
