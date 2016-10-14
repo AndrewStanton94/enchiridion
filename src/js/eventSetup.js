@@ -7,22 +7,26 @@ window.addEventListener('load', () => {
 	addFragmentButton.addEventListener('click', document.enchiridion.content.addParagraph);
 
 	document.enchiridion.transclusionContainer.addEventListener('keypress', e => {
-		// console.log(e);
 		if (e.key === 'Enter') {
+			e.preventDefault();
+			console.log(e);
 			if (e.ctrlKey) {
 				console.log('<C-Enter>');
 			}
 			else if (e.shiftKey) {
-				document.enchiridion.content.addBlockquote();
-				prompt('What do you want to transclude?');
+				document.enchiridion.transclusion.createNewTransclusion(e);
 			}
 			else if (e.altKey) {
 				console.log('<M-Enter>');
 			}
 			else {
-				document.enchiridion.content.addParagraph();
+				document.enchiridion.transclusion.createParagraph(e.target);
 			}
 		}
 	});
-	document.enchiridion.content.addParagraph();
+
+	document.enchiridion.transclusionContainer.addEventListener('focus', e => {
+		console.log('Focus', e);
+	});
+	document.enchiridion.transclusion.createParagraph();
 });

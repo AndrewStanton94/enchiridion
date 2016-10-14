@@ -3,7 +3,7 @@ document.enchiridion.content = {
 	createElement: (elementName, data) => {
 		let newElement = document.createElement(elementName);
 		document.enchiridion.content.setAttributes(newElement, data);
-		return newElement.outerHTML;
+		return newElement;
 	},
 
 	setAttributes : (element, data) => {
@@ -17,15 +17,5 @@ document.enchiridion.content = {
 				element.setAttribute(key, value);
 			}
 		});
-	},
-
-	appendElement : (preceeding, element) => {
-		preceeding.insertAdjacentHTML('beforeend', element);
-	},
-
-	appendNewElement : (preceeding, element, data) => {
-		document.enchiridion.content.appendElement(preceeding,
-			document.enchiridion.content.createElement(element, data)
-		);
 	}
 };

@@ -1,7 +1,6 @@
-document.enchiridion.content.addBlockquote = () => {
+document.enchiridion.content.addBlockquote = preceedingElement => {
 	console.log('Creating a blockquote');
-	document.enchiridion.content.appendNewElement(
-		document.enchiridion.transclusionContainer,
+	let newBlockquote = document.enchiridion.content.createElement(
 		'blockquote',
 		{
 			'contentEditable': 'true',
@@ -9,11 +8,13 @@ document.enchiridion.content.addBlockquote = () => {
 			'key': 'value'
 		}
 	);
+	document.enchiridion.content.insertElement(newBlockquote, preceedingElement);
+	return newBlockquote;
 };
-document.enchiridion.content.addParagraph = () => {
-	console.log('Creating a paragraph');
-	document.enchiridion.content.appendNewElement(
-		document.enchiridion.transclusionContainer,
+
+document.enchiridion.content.addParagraph = preceedingElement => {
+	console.log('Creating a paragraph', preceedingElement);
+	let newParagraph = document.enchiridion.content.createElement(
 		'p',
 		{
 			'contentEditable': 'true',
@@ -21,4 +22,17 @@ document.enchiridion.content.addParagraph = () => {
 			'key': 'value'
 		}
 	);
+	document.enchiridion.content.insertElement(newParagraph, preceedingElement);
+	return newParagraph;
+};
+
+document.enchiridion.content.insertElement = (element, preceedingElement) => {
+	if (preceedingElement && preceedingElement.type !== 'click') {
+	// Have a preceedingElement which is not a click event
+		preceedingElement.insertAdjacentElement('afterend', element);
+	} else {
+	// No valid container, so append
+		document.enchiridion.transclusionContainer.insertAdjacentElement('beforeend', element);
+		console.log('Appending element');
+	}
 };
