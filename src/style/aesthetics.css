@@ -5,10 +5,14 @@
 }
 
 article {
-	background-color: blue;
+	background-color: #0df;
 }
 
 #addNewFragment {
 	color: green;
 	font-size: 5em;
+}
+
+blockquote {
+	font-style: italic;
 }

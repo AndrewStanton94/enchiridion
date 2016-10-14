@@ -1,22 +1,28 @@
-'use strict';
 window.addEventListener('load', () => {
-	console.log('Page loaded');
+	// console.log('Page loaded');
 
-	let transclusionContainer = document.getElementById('transclusionContainer'),
-		addFragmentButton = document.getElementById('addNewFragment');
+	document.enchiridion.transclusionContainer = document.getElementById('transclusionContainer');
+	let addFragmentButton = document.getElementById('addNewFragment');
 
-	console.log(addFragmentButton);
+	addFragmentButton.addEventListener('click', document.enchiridion.content.addParagraph);
 
-	addFragmentButton.addEventListener('click', e => 
-	{
-		document.enchiridion.content.appendNewElement(
-			transclusionContainer,
-			'blockquote',
-			{
-				'contentEditable': 'true',
-				'innerText': 'wibble',
-				'key': 'value'
+	document.enchiridion.transclusionContainer.addEventListener('keypress', e => {
+		// console.log(e);
+		if (e.key === 'Enter') {
+			if (e.ctrlKey) {
+				console.log('<C-Enter>');
 			}
-		);
+			else if (e.shiftKey) {
+				document.enchiridion.content.addBlockquote();
+				prompt('What do you want to transclude?');
+			}
+			else if (e.altKey) {
+				console.log('<M-Enter>');
+			}
+			else {
+				document.enchiridion.content.addParagraph();
+			}
+		}
 	});
+	document.enchiridion.content.addParagraph();
 });
