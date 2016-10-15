@@ -28,5 +28,5 @@ window.addEventListener('load', () => {
 	document.enchiridion.transclusionContainer.addEventListener('focus', e => {
 		console.log('Focus', e);
 	});
-	document.enchiridion.transclusion.createParagraph();
+	document.enchiridion.transclusion.init();
 });
