@@ -1,6 +1,6 @@
 /* Use this file to position elements.
 */
-#main {
+#main, .nonLinear {
 	display: -webkit-flex;
 	display: flex;
 	height: 100%;

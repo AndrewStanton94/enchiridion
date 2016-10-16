@@ -4,7 +4,11 @@ window.addEventListener('load', () => {
 	document.enchiridion.transclusionContainer = document.getElementById('transclusionContainer');
 	let addFragmentButton = document.getElementById('addNewFragment');
 
-	addFragmentButton.addEventListener('click', document.enchiridion.content.addParagraph);
+	addFragmentButton.addEventListener('click',  () => {
+		document.enchiridion.transclusion.createParagraph({
+			'container': document.enchiridion.transclusionContainer,
+			'innerText': 'Appended from button'
+		});} );
 
 	document.enchiridion.transclusionContainer.addEventListener('keypress', e => {
 		if (e.key === 'Enter') {
@@ -14,13 +18,18 @@ window.addEventListener('load', () => {
 				console.log('<C-Enter>');
 			}
 			else if (e.shiftKey) {
-				document.enchiridion.transclusion.createNewTransclusion(e);
+				document.enchiridion.transclusion.createNewTransclusion({
+					'placeAfter': e.target
+				});
 			}
 			else if (e.altKey) {
 				console.log('<M-Enter>');
 			}
 			else {
-				document.enchiridion.transclusion.createParagraph(e.target);
+				document.enchiridion.transclusion.createParagraph({
+					'placeAfter': e.target,
+					'innerText': 'Write here from <Enter>'
+				});
 			}
 		}
 	});
