@@ -5,7 +5,7 @@
 }
 
 article {
-	background-color: #0df;
+	background-color: #1cabc2;
 }
 
 #addNewFragment {
@@ -15,4 +15,11 @@ article {
 
 blockquote {
 	font-style: italic;
+	margin-left: 50px;
+	padding-left: 15px;
+	border-left: 3px solid #ccc;
+}
+:focus {
+	font-weight: bold;
+	background-color: #0df;
 }
