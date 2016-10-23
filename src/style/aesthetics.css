@@ -15,11 +15,15 @@ article {
 
 blockquote {
 	font-style: italic;
-	margin-left: 50px;
 	padding-left: 15px;
 	border-left: 3px solid #ccc;
 }
 :focus {
 	font-weight: bold;
 	background-color: #0df;
+}
+
+.nonLinear {
+	border: 0.5em solid #000;
+	background-color: #F038;
 }
