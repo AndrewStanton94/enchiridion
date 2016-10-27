@@ -54,9 +54,9 @@ QUnit.test('createNewTransclusion', function( assert ) {
 	assert.deepEqual(elem.outerHTML, expectedElem, 'Create transclusion elelment');
 });
 
-QUnit.test('createNewNonLinear', function( assert ) {
-	let expectedElem = '<section class="nonLinear" contenteditable="true"></section>',
-		elem = document.enchiridion.transclusion.createNewNonLinear({
+QUnit.test('createNewParallel', function( assert ) {
+	let expectedElem = '<section class="parallel" contenteditable="true"></section>',
+		elem = document.enchiridion.transclusion.createNewParallel({
 				container: document.getElementById('qunit-fixture')
 		})
 	;

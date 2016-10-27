@@ -9,11 +9,11 @@ document.enchiridion.transclusion = {
 			'data': 'google.com'
 		},
 		{
-			'type': 'nonLinear',
+			'type': 'parallel',
 			'data':
 			[
 				{
-					'type': 'nonLinear',
+					'type': 'parallel',
 					'data':
 					[
 						{
@@ -58,20 +58,20 @@ document.enchiridion.transclusion = {
 		return newTransclusion;
 	},
 
-	createNewNonLinear: params => {
-		let newNonLinear = document.enchiridion.content.createElement('section', {
+	createNewParallel: params => {
+		let newParallel = document.enchiridion.content.createElement('section', {
 			'contentEditable': 'true',
-			'class': 'nonLinear'
+			'class': 'parallel'
 			// 'innerText': 'Building subtree'
 		});
 		if (params.container) {
-			params.container.insertAdjacentElement('beforeend', newNonLinear);
+			params.container.insertAdjacentElement('beforeend', newParallel);
 		}
 		if (params.placeAfter) {
-			params.placeAfter.insertAdjacentElement('afterend', newNonLinear);
+			params.placeAfter.insertAdjacentElement('afterend', newParallel);
 		}
-		newNonLinear.focus();
-		return newNonLinear;
+		newParallel.focus();
+		return newParallel;
 	},
 
 	createParagraph: params => {
@@ -107,7 +107,6 @@ document.enchiridion.transclusion = {
 	},
 
 	processFragment: (fragment, container) => {
-		console.log('[processFragment] fragment.data: ',fragment.data);
 		let element;
 		switch (fragment.type) {
 			case 'standard':
@@ -122,21 +121,19 @@ document.enchiridion.transclusion = {
 					'innerText': fragment.data
 				});
 				break;
-			case 'nonLinear':
+			case 'parallel':
 				// Create container
-				element = document.enchiridion.transclusion.createNewNonLinear({
+				element = document.enchiridion.transclusion.createNewParallel({
 					'container': container
 				});
 				// processFragment for decendants
-				console.log('NonLin');
 				fragment.data.map(i => {
-					console.log(i.data);
+					console.log('[processFragment] NonLin data', i.data);
 					document.enchiridion.transclusion.processFragment(i, element);
 				});
 				break;
 			default:
 				console.warn('[processFragment] Unrecognised fragment type', fragment.type);
 		}
-		console.log('[processFragment] element', element);
 	}
 };

@@ -1,6 +1,6 @@
 /* Use this file to position elements.
 */
-#main, .nonLinear {
+#main, .parallel {
 	display: -webkit-flex;
 	display: flex;
 }
