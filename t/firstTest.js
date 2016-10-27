@@ -1,11 +1,47 @@
 /* globals QUnit, KeyboardEvent */
-let invokeKeypress = function() {
-	let myElem = document.querySelector('#main p');
-	console.log(myElem);
-	let event = new KeyboardEvent('keypress', {key: 'Enter', shiftKey: true, bubbles: true});
-	myElem.dispatchEvent(event);
-	console.log(event);
+let invokeKeypress = function(assert, event, element, message) {
+	element.addEventListener('keypress', e => {
+		assert.deepEqual(e, event, message );
+	});
+	element.dispatchEvent(event);
 };
+
+// This check that the system responds to <Mod?-Enter>
+QUnit.test('<Enter> in transclusionContainer', function( assert ) {
+	let element = document.querySelector('#main p');
+	invokeKeypress(assert,
+		new KeyboardEvent('keypress', {key: 'Enter'}),
+		element,
+		'<Enter> detected'
+	);
+});
+
+QUnit.test('<C-Enter> in transclusionContainer', function( assert ) {
+	let element = document.querySelector('#main p');
+	invokeKeypress(assert,
+		new KeyboardEvent('keypress', {key: 'Enter', ctrlKey: true}),
+		element,
+		'<C-Enter> detected'
+	);
+});
+
+QUnit.test('<S-Enter> in transclusionContainer', function( assert ) {
+	let element = document.querySelector('#main p');
+	invokeKeypress(assert,
+		new KeyboardEvent('keypress', {key: 'Enter', shiftKey: true}),
+		element,
+		'<S-Enter> detected'
+	);
+});
+
+QUnit.test('<A-Enter> in transclusionContainer', function( assert ) {
+	let element = document.querySelector('#main p');
+	invokeKeypress(assert,
+		new KeyboardEvent('keypress', {key: 'Enter', altKey: true}),
+		element,
+		'<A-Enter> detected'
+	);
+});
 
 // Test content creation. Call and check result
 QUnit.test('createNewTransclusion', function( assert ) {
