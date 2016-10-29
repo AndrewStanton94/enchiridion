@@ -128,7 +128,7 @@ document.enchiridion.transclusion = {
 				});
 				// processFragment for decendants
 				fragment.data.map(i => {
-					console.log('[processFragment] NonLin data', i.data);
+					console.log('[processFragment] Parallel data', i.data);
 					document.enchiridion.transclusion.processFragment(i, element);
 				});
 				break;
