@@ -12,7 +12,7 @@ module.exports = function(grunt){
 
 			js: {
 				src: ['src/js/*'],
-				dest: 'dist/js.js'
+				dest: 'public/dist/js.js'
 			}
 		},
 
