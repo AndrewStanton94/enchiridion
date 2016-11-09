@@ -1,6 +1,4 @@
 window.addEventListener('load', () => {
-	// console.log('Page loaded');
-
 	document.enchiridion.transclusionContainer = document.getElementById('transclusionContainer');
 	let addFragmentButton = document.getElementById('addNewFragment');
 
@@ -34,8 +32,18 @@ window.addEventListener('load', () => {
 		}
 	});
 
-	document.enchiridion.transclusionContainer.addEventListener('focus', e => {
-		console.log('Focus', e);
-	});
+	document.enchiridion.transclusionContainer.addEventListener(
+		'blur',
+		e => {
+			let data = e.target.textContent;
+			if (data === '') {
+				console.warn('Not posting empty data');
+				return;
+			}
+			document.enchiridion.ajax.upload({'data': data}, e.target);
+		},
+		true
+	);
+
 	document.enchiridion.transclusion.init();
 });
