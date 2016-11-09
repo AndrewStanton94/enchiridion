@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var upload = require('./routes/upload');
+var fragments = require('./routes/fragments');
 var users = require('./routes/users');
 
 var app = express();
@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/upload', upload);
+app.use('/fragments', fragments);
 app.use('/users', users);
 
 // catch 404 and forward to error handler

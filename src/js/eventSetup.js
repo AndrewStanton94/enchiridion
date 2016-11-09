@@ -40,7 +40,7 @@ window.addEventListener('load', () => {
 				console.warn('Not posting empty data');
 				return;
 			}
-			document.enchiridion.ajax.upload({'data': data}, e.target);
+			document.enchiridion.ajax.uploadFragment({'data': data}, e.target);
 		},
 		true
 	);

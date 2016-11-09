@@ -1,6 +1,6 @@
 document.enchiridion = document.enchiridion || {};
 document.enchiridion.ajax = {
-	upload:  function(
+	uploadFragment:  function(
 		data,
 		elem,
 		success = () => {console.log('It worked');},
@@ -11,7 +11,7 @@ document.enchiridion.ajax = {
 		},
 		fail = e => {console.error(e);}
 	) {
-		fetch('upload', {
+		fetch('fragments', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

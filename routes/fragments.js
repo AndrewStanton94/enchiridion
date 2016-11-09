@@ -1,30 +1,36 @@
 var express = require('express');
 var router = express.Router();
 
-var aFileWriter = function (content) {
-	var uuid = require('node-uuid');
+var aFileReader = function(fileName){
 	var fs = require('fs');
+	fs.readFile(fileName,
+		'utf8',
+		function(err, data){
+			if(err){
+				throw err;
+			}
+			console.log('*** Reading just written file');
+			console.log(data);
+		}
+	);
+};
 
-	var uuid = uuid.v4();
-	var writeSource = `fragments/${uuid}.json`;
+var aFileWriter = function (content, fileName) {
+	fileName = fileName || require('node-uuid').v4();
+	var fs = require('fs');
+	var writeSource = `fragments/${fileName}.json`;
 	fs.writeFile(writeSource,
 		content,
 		{'encoding':'utf8'},
 		function(err){
-			if ( err ) { throw err; }
+			if(err){
+				throw err;
+			}
 			console.log('*** File written successfully');
-			//Now reading the same file to confirm data written
-			fs.readFile(writeSource,
-				'utf8',
-				function(err, data){
-					if ( err ){ throw err;}
-					console.log('*** Reading just written file');
-					console.log(data);
-				}
-			);
+			aFileReader(writeSource);
 		}
 	);
-	return uuid;
+	return fileName;
 };
 
 router.post('/', function(req, res) {
