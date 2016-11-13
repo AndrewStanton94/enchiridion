@@ -32,5 +32,39 @@ document.enchiridion.ajax = {
 		.catch(function(e) {
 			fail(e);
 		});
+	},
+
+	search:  function(
+		data,
+		success = () => {console.log('I searched');},
+		serverResponse = json => {
+			console.log(json);
+		},
+		fail = e => {
+			console.error(e);
+		}
+	)
+	{
+		fetch('fragments', {
+			method: 'SEARCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		}).then(function(res) {
+			if (res.ok) {
+				success();
+				return res.json();
+			}
+			else {
+				console.log(res.status);
+			}
+		})
+		.then(function(json){
+			serverResponse(json);
+		})
+		.catch(function(e) {
+			fail(e);
+		});
 	}
 };
