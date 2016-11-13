@@ -39,6 +39,7 @@ document.enchiridion.ajax = {
 		success = () => {console.log('I searched');},
 		serverResponse = json => {
 			console.log(json);
+			document.enchiridion.ajax.render(json);
 		},
 		fail = e => {
 			console.error(e);
@@ -66,5 +67,12 @@ document.enchiridion.ajax = {
 		.catch(function(e) {
 			fail(e);
 		});
+	},
+
+	render: function (data) {
+		const aResult = function (match){
+			console.log(`The data '${match.data}' is stored at ${match.fId}`);
+		};
+		data.results.map( result => aResult(result));
 	}
 };
