@@ -79,7 +79,8 @@ document.enchiridion.transclusion = {
 			'p',
 			{
 				'contentEditable': 'true',
-				'innerText': params.innerText
+				'innerText': params.innerText,
+				'id': params.id
 			}
 		);
 		if (params.container) {

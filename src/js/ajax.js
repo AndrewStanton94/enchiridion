@@ -66,7 +66,6 @@ document.enchiridion.ajax = {
 
 	search:  function(
 		data,
-		success = () => {console.log('I searched');},
 		serverResponse = json => {
 			console.log(json);
 			document.enchiridion.ajax.render(json);
@@ -84,7 +83,6 @@ document.enchiridion.ajax = {
 			body: JSON.stringify(data)
 		}).then(function(res) {
 			if (res.ok) {
-				success();
 				return res.json();
 			}
 			else {

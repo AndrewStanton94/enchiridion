@@ -45,5 +45,21 @@ window.addEventListener('load', () => {
 		true
 	);
 
+	document.getElementById('searchBox').addEventListener('input', e => {
+		console.log(e.target.value);
+		let searchResults = document.getElementById('searchResults');
+		searchResults.innerHTML = '';
+		document.enchiridion.ajax.search({q: e.target.value}, json => {
+			json.results.map(match => {
+				console.log('A match', match);
+				document.enchiridion.transclusion.createParagraph({
+					container: searchResults,
+					innerText: match.data,
+					id: match.fId
+				});
+			});
+		});
+	});
+
 	document.enchiridion.transclusion.init();
 });

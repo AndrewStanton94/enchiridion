@@ -1,11 +1,21 @@
 /* Use this file to position elements.
 */
-#main, .parallel {
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body, #main, .parallel {
 	display: -webkit-flex;
 	display: flex;
 }
 
-article {
+.flexChild, article {
 	-webkit-flex: 1;
 	flex: 1;
+}
+
+#main{
+	-webkit-flex: 2;
+	flex: 2;
 }
