@@ -37,6 +37,22 @@ var aFileWriter = function (content, fileName) {
 	return fileName;
 };
 
+router.get('/:id', function (req, res) {
+	var fName = `fragments/${req.params.id}.json`;
+	console.log(fName);
+
+	require('fs').readFile(fName,
+		'utf8',
+		function(err, data){
+			if(err){
+				throw err;
+			}
+			console.log(data);
+			res.json(data);
+		}
+	);
+});
+
 router.post('/', function(req, res) {
 	console.log('POST fragments/ req.body:', req.body);
 	var fName = aFileWriter(req.body);

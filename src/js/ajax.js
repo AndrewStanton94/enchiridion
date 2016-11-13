@@ -34,6 +34,36 @@ document.enchiridion.ajax = {
 		});
 	},
 
+	getFragment:  function(
+		data,
+		success = () => {console.log('Got it');},
+		serverResponse = json => {
+			console.log(json);
+		},
+		fail = e => {console.error(e);}
+	) {
+		fetch(`fragments/${data.fId}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}).then(function(res) {
+			if (res.ok) {
+				success();
+				return res.json();
+			}
+			else {
+				console.log(res.status);
+			}
+		})
+		.then(function(json){
+			serverResponse(json);
+		})
+		.catch(function(e) {
+			fail(e);
+		});
+	},
+
 	search:  function(
 		data,
 		success = () => {console.log('I searched');},
