@@ -56,7 +56,7 @@ router.get('/:id', function (req, res) {
 router.post('/', function(req, res) {
 	console.log('POST fragments/ req.body:', req.body);
 	var fName = aFileWriter(req.body);
-	res.status(202).json({
+	res.status(201).json({
 		fragmentState: 'created',
 		fragmentId: fName
 	});
