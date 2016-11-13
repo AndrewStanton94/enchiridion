@@ -16,6 +16,21 @@ module.exports = function(grunt){
 			}
 		},
 
+		copy: {
+			css: {
+				files: [
+					// includes files within path and its sub-directories
+					{
+						expand: true,
+						flatten: true,
+						cwd: 'src/style',
+						src: '**',
+						dest: 'public/dist'
+					}
+				],
+			},
+		},
+
 		jshint: {
 			options: {
 				jshintrc: true,
@@ -29,6 +44,10 @@ module.exports = function(grunt){
 			js: {
 				files: '<%= concat.js.src%>',
 				tasks: ['js']
+			},
+			css: {
+				files: ['src/style/*'],
+				tasks: ['css']
 			}
 		}
 	});
@@ -38,5 +57,6 @@ module.exports = function(grunt){
 
 	// Define tasks
 	grunt.registerTask('js', ['jshint:src', 'concat:js', 'jshint:dest']);
+	grunt.registerTask('css', ['copy:css']);
 	grunt.registerTask('default', ['watch']);
 };
