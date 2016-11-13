@@ -72,4 +72,16 @@ router.search('/', function (req, res) {
 	});
 });
 
+router.put('/:id', function (req, res) {
+	var fName = req.params.id;
+	console.log(fName);
+	console.log('PUT fragments/ req.body:', req.body);
+
+	aFileWriter(req.body, fName);
+	res.status(200).json({
+		fragmentState: 'updated',
+		fragmentId: fName
+	});
+});
+
 module.exports = router;

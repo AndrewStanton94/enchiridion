@@ -5,7 +5,9 @@ window.addEventListener('load', () => {
 	addFragmentButton.addEventListener('click',  () => {
 		document.enchiridion.transclusion.createParagraph({
 			'container': document.enchiridion.transclusionContainer,
-			'innerText': 'Appended from button'
+			'innerText': 'Appended from button',
+			id: 'newParagraph',
+			focus: true
 		});} );
 
 	document.enchiridion.transclusionContainer.addEventListener('keypress', e => {
@@ -26,7 +28,9 @@ window.addEventListener('load', () => {
 			else {
 				document.enchiridion.transclusion.createParagraph({
 					'placeAfter': e.target,
-					'innerText': 'Write here from <Enter>'
+					'innerText': 'Write here from <Enter>',
+					id: 'newParagraph',
+					focus: true
 				});
 			}
 		}
@@ -40,7 +44,20 @@ window.addEventListener('load', () => {
 				console.warn('Not posting empty data');
 				return;
 			}
-			document.enchiridion.ajax.uploadFragment({'data': data}, e.target);
+			console.log(e.target.id, e.target.id === 'newParagraph');
+			if (e.target.id === 'newParagraph') {
+				console.log('posting', data);
+				document.enchiridion.ajax.uploadFragment({'data': data}, e.target);
+			} else {
+				console.log('Put');
+				document.enchiridion.ajax.updateFragment(
+					{
+						data: data,
+						fId: e.target.id
+					},
+					e.target
+				);
+			}
 		},
 		true
 	);

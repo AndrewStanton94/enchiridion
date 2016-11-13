@@ -102,5 +102,38 @@ document.enchiridion.ajax = {
 			console.log(`The data '${match.data}' is stored at ${match.fId}`);
 		};
 		data.results.map( result => aResult(result));
+	},
+
+	updateFragment:  function(
+		data,
+		elem,
+		success = () => {console.log('It worked');},
+		serverResponse = json => {
+			console.log(json);
+			console.log(elem);
+		},
+		fail = e => {console.error(e);}
+	) {
+		fetch(`fragments/${data.fId}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		}).then(function(res) {
+			if (res.ok) {
+				success();
+				return res.json();
+			}
+			else {
+				console.log(res.status);
+			}
+		})
+		.then(function(json){
+			serverResponse(json);
+		})
+		.catch(function(e) {
+			fail(e);
+		});
 	}
 };

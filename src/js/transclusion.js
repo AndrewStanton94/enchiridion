@@ -89,7 +89,9 @@ document.enchiridion.transclusion = {
 		if (params.placeAfter) {
 			params.placeAfter.insertAdjacentElement('afterend', newContent);
 		}
-		newContent.focus();
+		if (params.focus) {
+			newContent.focus();
+		}
 		return newContent;
 	},
 
@@ -99,7 +101,9 @@ document.enchiridion.transclusion = {
 		} else {
 			document.enchiridion.transclusion.createParagraph({
 				container: document.enchiridion.transclusionContainer,
-				innerText: ''
+				innerText: '',
+				id: 'newParagraph',
+				focus: true
 			});
 		}
 	},
