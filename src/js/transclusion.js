@@ -99,7 +99,7 @@ document.enchiridion.transclusion = {
 		} else {
 			document.enchiridion.transclusion.createParagraph({
 				container: document.enchiridion.transclusionContainer,
-				innerText: 'Some text'
+				innerText: ''
 			});
 		}
 	},
