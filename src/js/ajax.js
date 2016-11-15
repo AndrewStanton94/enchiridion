@@ -8,6 +8,7 @@ document.enchiridion.ajax = {
 			console.log(json);
 			console.log(elem);
 			elem.id = json.fragmentId;
+			elem.classList.remove('contentChanged');
 		},
 		fail = e => {console.error(e);}
 	) {
@@ -111,6 +112,7 @@ document.enchiridion.ajax = {
 		serverResponse = json => {
 			console.log(json);
 			console.log(elem);
+			elem.classList.remove('contentChanged');
 		},
 		fail = e => {console.error(e);}
 	) {

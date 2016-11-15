@@ -11,6 +11,7 @@ window.addEventListener('load', () => {
 		});} );
 
 	document.enchiridion.transclusionContainer.addEventListener('keypress', e => {
+		e.target.classList.add('contentChanged');
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			console.log(e);
