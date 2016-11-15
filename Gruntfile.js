@@ -29,6 +29,28 @@ module.exports = function(grunt){
 					}
 				],
 			},
+			jsLib: {
+				files: [
+					// includes files within path and its sub-directories
+					{
+						expand: true,
+						cwd: 'src/lib',
+						src: '**',
+						dest: 'public/dist'
+					}
+				],
+			},
+			jsPlugins: {
+				files: [
+					// includes files within path and its sub-directories
+					{
+						expand: true,
+						cwd: 'src/plugins',
+						src: '**',
+						dest: 'public/plugins'
+					}
+				],
+			},
 		},
 
 		jshint: {
@@ -44,6 +66,14 @@ module.exports = function(grunt){
 			js: {
 				files: '<%= concat.js.src%>',
 				tasks: ['js']
+			},
+			jsLib: {
+				files: ['src/lib/*'],
+				tasks: ['copy:jsLib']
+			},
+			jsPlugins: {
+				files: ['src/plugins/*'],
+				tasks: ['copy:jsPlugins']
 			},
 			css: {
 				files: ['src/style/*'],
