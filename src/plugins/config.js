@@ -14,6 +14,5 @@ requirejs.config({
        }
     }
 });
-console.log(requirejs);
 
 requirejs(['testPlugin']);
