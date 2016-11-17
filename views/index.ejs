@@ -15,8 +15,10 @@
 		<div id="qunit"></div>
 		<div id="qunit-fixture"></div>
 	<% } %>
-	<% include components/leftSidebar.ejs %>
-	<% include components/editor.ejs %>
+	<main>
+		<% include components/leftSidebar.ejs %>
+		<% include components/editor.ejs %>
+	</main>
 </body>
 <% if(test){ %>
 	<% include components/test.ejs %>
