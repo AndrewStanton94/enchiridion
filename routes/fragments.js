@@ -31,7 +31,7 @@ var aFileWriter = function (content, fileName) {
 			console.log('*** File written successfully');
 			aFileReader(writeSource);
 
-			GLOBAL.search.wrapper.addData(content);
+			global.search.wrapper.addData(content);
 		}
 	);
 	return fileName;
@@ -64,7 +64,7 @@ router.post('/', function(req, res) {
 
 router.search('/', function (req, res) {
 	console.log('SEARCH fragments/ Searching for', req.body);
-	var ans = GLOBAL.search.wrapper.doSearch(req.body);
+	var ans = global.search.wrapper.doSearch(req.body);
 	res.json({
 		results: ans,
 		start: 0,
