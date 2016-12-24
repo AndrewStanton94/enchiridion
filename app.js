@@ -13,7 +13,8 @@ var search = require('./src/node/search');
 search.init();
 
 var app = express();
-app.locals.test = true;
+// app.locals.test = true;
+app.locals.lab = true;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +30,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 if (app.locals.test) {
 	app.use(express.static(path.join(__dirname, 't')));
+}
+if (app.locals.lab) {
+	app.use(express.static(path.join(__dirname, 'lab')));
 }
 
 app.use('/', index);
