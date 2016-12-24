@@ -35,13 +35,15 @@ fragments = [
 					'txt/en': 'And here is some text'
 				},
 				'fId': '27op4qr4-1175-4766-8429-950rpq802n87'
-			}
+			},
+			'gif/en': 'https://unused.url.png'
 		},
 		'fId': '27bc4de4-1175-4766-8429-950ecd802a87'
 	},
 	{
 		'data': {
 			'txt/en': 'And here\'s some different text',
+			'png/en': 'https://a.url.png',
 			'txt/gr': {
 				'data': {
 					'txt/en': 'And here is some text'
@@ -74,26 +76,24 @@ inCollection = function(item, collection){
 	return collection.indexOf(item) >= 0;
 },
 
-// Get a fragment with both language and type being in preferred lists
-strictFilter = function(key) {
-	parts = key.split('/');
-	return inCollection(parts[0], config.preferredFormats)
-		&& inCollection(parts[1], config.preferredLanguages);
-},
-
-fileTypeFilter = function(key) {
-	parts = key.split('/');
-	console.log(parts);
-	return inCollection(parts[0], config.preferredFormats);
-},
+filterFormats = function(list, sliceIndex, validOptions){
+	return list.filter(function(key){
+		return inCollection(key.split('/')[sliceIndex], validOptions);
+	});
+}
 
 selectFormat = function(fragment){
 	var renderType = Object.keys(fragment.data);
 	if(renderType.length > 1){
-		renderType = renderType.filter(fileTypeFilter);
+		renderType = filterFormats(renderType, 1, config.preferredLanguages);
+		console.log('After language filter: ', renderType);
+	}
+	if(renderType.length > 1){
+		renderType = filterFormats(renderType, 0, config.preferredFormats);
+		console.log('After type filter: ', renderType);
 	}
 	console.log(renderType);
-	return renderType[0];
+	return renderType;
 },
 
 // A promise that will do the plugin lookup
