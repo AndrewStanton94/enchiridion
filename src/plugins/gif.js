@@ -1,14 +1,10 @@
 define({
-	'data': function(params){
-		console.log(params);
-		var data = params.fragment.data[params.dataType];
-		return data;
+	'data': function(transferContainer){
+		return transferContainer.fragment.data[transferContainer.formatToRender];
 	},
-	'main': function(params){
-		console.log(params);
+	'main': function(transferContainer){
 		var element = document.createElement('img');
-		element.src = params.data;
-		console.log(element);
+		element.src = transferContainer.data;
 		return element.outerHTML;
 	},
 	'search': function(fragment){

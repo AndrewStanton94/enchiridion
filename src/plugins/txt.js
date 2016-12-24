@@ -1,12 +1,10 @@
 define({
-	'data': function(params){
-		console.log(params);
-		var data = params.fragment.data[params.dataType];
-		return data;
+	'data': function(transferContainer){
+		return transferContainer.fragment.data[transferContainer.formatToRender];
 	},
-	'main': function(params){
+	'main': function(transferContainer){
 		var element = document.createElement('p');
-		element.textContent = params.data;
+		element.textContent = transferContainer.data;
 		return element.outerHTML;
 	},
 	'search': function(fragment){

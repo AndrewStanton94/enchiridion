@@ -1,4 +1,32 @@
-let fragments = [
+const TransferContainer = class{
+	constructor(fragment, plugins, formatsToRender){
+		this._fragment = fragment;
+		this._plugins = plugins;
+		this._formatsToRender = formatsToRender
+	}
+
+	set data(recievedData){
+		this._data = recievedData;
+	}
+
+	get data(){
+		return this._data;
+	}
+
+	get plugins(){
+		return this._plugins;
+	}
+
+	get formatToRender(){
+		return this._formatsToRender[0];
+	}
+
+	get fragment(){
+		return this._fragment;
+	}
+},
+
+fragments = [
 	{
 		'data': {
 			'txt/en': 'And here is some text',
@@ -73,42 +101,28 @@ getPlugin = function(formatToRender, fragment){
 	return new Promise(function(resolve, reject){
 		document.enchiridion = document.enchiridion || {};
 		document.enchiridion.plugins = document.enchiridion.plugins || {};
-		var fileType = formatToRender.split('/')[0];
+		var fileType = formatToRender[0].split('/')[0];
 
 		var plugin = document.enchiridion.plugins[fileType];
 		if(plugin){
-			resolve({
-				'plugin': plugin,
-				'formatToRender': formatToRender,
-				'fragment': fragment
-			});
+			resolve(new TransferContainer(fragment, plugin, formatToRender));
 		}
 		else{
-			require([fileType], x => {
-				document.enchiridion.plugins[fileType] = x;
-				resolve({
-					'plugins': x,
-					'formatToRender': formatToRender,
-					'fragment': fragment
-				});
+			require([fileType], plugin => {
+				document.enchiridion.plugins[fileType] = plugin;
+				resolve(new TransferContainer(fragment, plugin, formatToRender));
 			});
 		}
 	});
 },
 
-extractContent = function(params){
-	return {
-		'plugins': params.plugins,
-		'fragment': params.fragment,
-		'data': params.plugins.data({
-			'dataType': params.formatToRender,
-			'fragment': params.fragment
-		})
-	};
+extractContent = function(transferContainer){
+	transferContainer.data = transferContainer.plugins.data(transferContainer);
+	return transferContainer;
 },
 
-generateElements = params =>
-	params.plugins.main(params)
+generateElements = transferContainer =>
+	transferContainer.plugins.main(transferContainer)
 ,
 
 draw = function(content){
