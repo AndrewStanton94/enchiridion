@@ -1,16 +1,16 @@
 document.enchiridion = document.enchiridion || {};
 document.enchiridion.ajax = {
+	fail : e => {console.error(e);},
+
 	uploadFragment:  function(
 		data,
 		elem,
-		success = () => {console.log('It worked');},
 		serverResponse = json => {
 			console.log(json);
 			console.log(elem);
 			elem.id = json.fragmentId;
 			elem.classList.remove('contentChanged');
-		},
-		fail = e => {console.error(e);}
+		}
 	) {
 		fetch('fragments', {
 			method: 'POST',
@@ -20,7 +20,6 @@ document.enchiridion.ajax = {
 			body: JSON.stringify(data)
 		}).then(function(res) {
 			if (res.ok) {
-				success();
 				return res.json();
 			}
 			else {
@@ -31,17 +30,15 @@ document.enchiridion.ajax = {
 			serverResponse(json);
 		})
 		.catch(function(e) {
-			fail(e);
+			document.enchiridion.ajax.fail(e);
 		});
 	},
 
 	getFragment:  function(
 		data,
-		success = () => {console.log('Got it');},
 		serverResponse = json => {
 			console.log(json);
-		},
-		fail = e => {console.error(e);}
+		}
 	) {
 		fetch(`fragments/${data.fId}`, {
 			method: 'GET',
@@ -50,7 +47,6 @@ document.enchiridion.ajax = {
 			}
 		}).then(function(res) {
 			if (res.ok) {
-				success();
 				return res.json();
 			}
 			else {
@@ -61,7 +57,7 @@ document.enchiridion.ajax = {
 			serverResponse(json);
 		})
 		.catch(function(e) {
-			fail(e);
+			document.enchiridion.ajax.fail(e);
 		});
 	},
 
@@ -70,9 +66,6 @@ document.enchiridion.ajax = {
 		serverResponse = json => {
 			console.log(json);
 			document.enchiridion.ajax.render(json);
-		},
-		fail = e => {
-			console.error(e);
 		}
 	)
 	{
@@ -94,7 +87,7 @@ document.enchiridion.ajax = {
 			serverResponse(json);
 		})
 		.catch(function(e) {
-			fail(e);
+			document.enchiridion.ajax.fail(e);
 		});
 	},
 
@@ -108,13 +101,11 @@ document.enchiridion.ajax = {
 	updateFragment:  function(
 		data,
 		elem,
-		success = () => {console.log('It worked');},
 		serverResponse = json => {
 			console.log(json);
 			console.log(elem);
 			elem.classList.remove('contentChanged');
-		},
-		fail = e => {console.error(e);}
+		}
 	) {
 		fetch(`fragments/${data.fId}`, {
 			method: 'PUT',
@@ -124,7 +115,6 @@ document.enchiridion.ajax = {
 			body: JSON.stringify(data)
 		}).then(function(res) {
 			if (res.ok) {
-				success();
 				return res.json();
 			}
 			else {
@@ -135,7 +125,7 @@ document.enchiridion.ajax = {
 			serverResponse(json);
 		})
 		.catch(function(e) {
-			fail(e);
+			document.enchiridion.ajax.fail(e);
 		});
 	}
 };
