@@ -1,0 +1,40 @@
+main, section, p {
+	position: relative;
+	margin: 1em;
+	border: 2px solid black;
+	padding: 1em;
+}
+
+.overlay {
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: rgba(255, 0, 255, 0.5);
+	font-size: 1.5em;
+}
+
+.parallel{
+	width: 50%;
+	position: relative;
+}
+
+.altFormat{
+	width: 50%;
+	position: relative;
+}
+
+#s1 {
+	background-color: red;
+}
+
+#s2 {
+	background-color: green;
+}
+:-moz-drag-over {
+  border: 1px solid black;
+}
+
+.dropTarget {
+	border: 5px dashed purple;
+}
