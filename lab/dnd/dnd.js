@@ -7,29 +7,19 @@ window.addEventListener('load', function(){
 
 	isSameFormat = function(droppedElem, recievingElement){
 		let sameFormat = droppedElem === recievingElement;
-		console.log(`Dropped ${droppedElem} on ${recievingElement}`);
-		console.log('sameFormat: ', sameFormat);
+		// console.log(`Dropped ${droppedElem} on ${recievingElement}`);
+		// console.log('sameFormat: ', sameFormat);
 		return sameFormat
 	},
 
-	dataTransferRetrievalHack = function(dataset, keyPrefix){
-		for(index in dataset){
-			if (dataset[index].startsWith(keyPrefix)){
-				return dataset[index].substring(keyPrefix.length);
-			}
-		}
-	},
-
-	produceOverlay = function(target, dataTypes){
-		let fmt = dataTransferRetrievalHack(dataTypes, 'fmt'),
-			droppedId = dataTransferRetrievalHack(dataTypes, 'id'),
-			sameFormat = isSameFormat(fmt, target.dataset.format);
+	produceOverlay = function(target, draggedId, draggedFormat){
+		let sameFormat = isSameFormat(draggedFormat, target.dataset.format);
 
 		if(target.getElementsByClassName('overlay').length === 0
 			&& !target.classList.contains('overlay')
 			// Doesn't have overlay or is overlay
 			&& !target.classList.contains('placeholder')
-			&& target.id !== droppedId		// Don't allow dropping on self
+			&& target.id !== draggedId		// Don't allow dropping on self
 		){
 			let elem = document.createElement('div');
 			elem.innerHTML = '<span class="overlay parallel">∥</span>';
@@ -38,62 +28,99 @@ window.addEventListener('load', function(){
 			}
 			elem.classList.add('overlay');
 			target.appendChild(elem);
-			console.log('Overlay for ', target.id, ' generated');
+			// console.log('Overlay for ', target.id, ' generated');
 		}
 		else {
-			console.log('No overlay');
+			// console.log('No overlay');
 		}
 	},
 
-	producePlaceHolder = function(preceeding, container){
-		if(preceeding && preceeding.id){
-			// console.log(`Placeholder before ${preceeding.id}`);
-			let placeholder = document.createElement('p');
-			placeholder.innerText = 'This is a placeholder';
-			placeholder.id = `before${preceeding.id}`;
-			placeholder.classList.add('placeholder');
-			container.insertBefore(placeholder, preceeding);
+	afterAPlaceholder = function(element){
+		if (element.previousElementSibling){
+			return element.previousElementSibling.classList.contains('placeholder')
+		}
+		else {
+			return false;
 		}
 	},
 
+	beforeAPlaceholder = function(element){
+		if (element.nextElementSibling){
+			return element.nextElementSibling.classList.contains('placeholder')
+		}
+		else {
+			return false;
+		}
+	},
 
-	modifyCurrentTarget = function(target){
-		let childNodes = [... target.children];
-		if(childNodes.length > 0){
-			console.log('There are inner elements');
-			childNodes.forEach(cn => {
-				producePlaceHolder(cn, target);
-			});
-			producePlaceHolder(null, target);
+	produceAPlaceholder = function(elem, draggedId){
+		if(elem.id === draggedId){
+			// console.log('Not placeholdering self');
 		}
 		else{
-			console.log('This is the innermost element');
+			let parentElement = elem.parentElement;
+			let nextElementSibling = elem.nextElementSibling;
+
+			// Check attribute if object doesn't exist return default value
+			// Move elsewhere later?
+			let checkAttr = function(object, attribute, compareAgainst, elseReturn){
+				if (object){
+					return object[attribute] === compareAgainst;
+				}
+				else {
+					return elseReturn;
+				}
+			};
+
+			if(afterAPlaceholder(elem)){
+				// console.log('No consecutive placeholders');
+				// Not going to put a placeholder infront of an existing one
+			}
+			else{
+				let placeholder = document.createElement('p');
+				placeholder.innerText = `This is a placeholder before ${elem.id}`;
+				placeholder.classList.add('placeholder');
+				parentElement.insertBefore(placeholder, elem);
+			}
+
+			if(checkAttr(nextElementSibling, 'id', draggedId, false)
+				|| beforeAPlaceholder(elem)
+			){
+				// console.log('Not putting placeholder before dragged element (or another placeholder)');
+			}
+			else{
+				let placeholder2 = document.createElement('p');
+				placeholder2.innerText = `This is a placeholder after ${elem.id}`;
+				placeholder2.classList.add('placeholder');
+				parentElement.insertBefore(placeholder2, nextElementSibling);
+			}
 		}
 	},
 
-	cleanupFormerTarget = function(target){
+	cleanupFormerTarget = function(){
 		let toPurge = [... document.getElementsByClassName('placeholder')];
-		if(target){
-			let siblings = [... target.parentElement.children];
-			toPurge = toPurge.filter(elem => !inCollection(elem, siblings));
-		}
-		else{
-			console.log('Purges placeholder');
-			// let overlays = [... document.getElementsByClassName('overlay')];
-			// overlays.forEach( elem => elem.parentElement.removeChild(elem));
-		}
 		toPurge.forEach( elem => elem.parentElement.removeChild(elem));
+
+		let overlays = [... document.getElementsByClassName('overlay')];
+		overlays.forEach( elem => elem.parentElement.removeChild(elem));
 	};
 
 	// Loads the data when the drag starts
 	main.addEventListener('dragstart', function(e){
-		e.dataTransfer.setData("text/plain", e.target.id);
+		let draggedId = e.target.id;
+		e.dataTransfer.setData("text/plain", draggedId);
 		e.dataTransfer.setData("format", e.target.dataset.format);
-		let fmtKey = "fmt" + e.target.dataset.format;
-		e.dataTransfer.setData(fmtKey, 'Hack reqiured to expose format to dragenter');
-		let idKey = "id" + e.target.id;
-		e.dataTransfer.setData(idKey, 'Hack reqiured to expose format to dragenter');
-		// http://stackoverflow.com/questions/11065803/determine-what-is-being-dragged-from-dragenter-dragover-events?rq=1
+
+		let draggableElements = [... document.querySelectorAll('[draggable]')];
+		draggableElements.forEach(elem => {
+			produceOverlay(
+				elem,
+				draggedId,
+				e.target.dataset.format
+			);
+
+			produceAPlaceholder(elem, draggedId);
+		});
 	});
 
 	// Doesn't do anything of value.
@@ -107,12 +134,7 @@ window.addEventListener('load', function(){
 	main.addEventListener('dragenter', function(e){
 		let target = e.target;
 		e.preventDefault();
-
-		produceOverlay(target, e.dataTransfer.types);
-		// console.log('enter', target.id );
 		target.classList.add('dropTarget');
-		cleanupFormerTarget(target);
-		modifyCurrentTarget(target);
 	});
 
 	// No longer over that element. Cues now misleading
@@ -165,6 +187,7 @@ window.addEventListener('load', function(){
 	// Regardless of if it's a suitable recipent.
 	main.addEventListener('dragend', function(e){
 		e.preventDefault();
+		console.log(e);
 		[... document.querySelectorAll('.dropTarget')].forEach(e => e.classList.remove('dropTarget'));
 	});
 });
