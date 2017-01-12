@@ -1,21 +1,18 @@
 window.addEventListener('load', function(){
 	let main = document.getElementById('container'),
 
-	inCollection = function(item, collection){
-		return collection.indexOf(item) >= 0;
-	},
-
 	isSameFormat = function(droppedElem, recievingElement){
 		let sameFormat = droppedElem === recievingElement;
 		// console.log(`Dropped ${droppedElem} on ${recievingElement}`);
 		// console.log('sameFormat: ', sameFormat);
-		return sameFormat
+		return sameFormat;
 	},
 
 	produceOverlay = function(target, draggedId, draggedFormat){
 		let sameFormat = isSameFormat(draggedFormat, target.dataset.format);
 
-		if(target.getElementsByClassName('overlay').length === 0
+		if(
+			target.getElementsByClassName('overlay').length === 0
 			&& !target.classList.contains('overlay')
 			// Doesn't have overlay or is overlay
 			&& !target.classList.contains('placeholder')
@@ -37,7 +34,7 @@ window.addEventListener('load', function(){
 
 	afterAPlaceholder = function(element){
 		if (element.previousElementSibling){
-			return element.previousElementSibling.classList.contains('placeholder')
+			return element.previousElementSibling.classList.contains('placeholder');
 		}
 		else {
 			return false;
@@ -46,7 +43,7 @@ window.addEventListener('load', function(){
 
 	beforeAPlaceholder = function(element){
 		if (element.nextElementSibling){
-			return element.nextElementSibling.classList.contains('placeholder')
+			return element.nextElementSibling.classList.contains('placeholder');
 		}
 		else {
 			return false;
@@ -108,8 +105,8 @@ window.addEventListener('load', function(){
 	// Loads the data when the drag starts
 	main.addEventListener('dragstart', function(e){
 		let draggedId = e.target.id;
-		e.dataTransfer.setData("text/plain", draggedId);
-		e.dataTransfer.setData("format", e.target.dataset.format);
+		e.dataTransfer.setData('text/plain', draggedId);
+		e.dataTransfer.setData('format', e.target.dataset.format);
 
 		let draggableElements = [... document.querySelectorAll('[draggable]')];
 		draggableElements.forEach(elem => {
@@ -147,7 +144,7 @@ window.addEventListener('load', function(){
 
 	// Element dropped onto a suitable element
 	main.addEventListener('drop', function(e){
-		let droppedElem = document.getElementById(e.dataTransfer.getData("text/plain"))
+		let droppedElem = document.getElementById(e.dataTransfer.getData('text/plain')),
 			recievingElement = e.target;
 
 		if(droppedElem.isSameNode(recievingElement)){
@@ -155,13 +152,13 @@ window.addEventListener('load', function(){
 		}
 		else {
 			e.preventDefault();
-			let recievingParent = recievingElement.parentElement,
-				sameFormat = isSameFormat(droppedElem.dataset.format, recievingElement.dataset.format);
+			let recievingParent = recievingElement.parentElement;
+				// sameFormat = isSameFormat(droppedElem.dataset.format, recievingElement.dataset.format);
 
 			console.log(`${droppedElem.id} was dropped on ${recievingElement.id}`);
 			if(recievingElement.classList.contains('placeholder')){
 				console.log('On a placeholder');
-				var nextElem = recievingElement.nextElementSibling;
+				let nextElem = recievingElement.nextElementSibling;
 				recievingParent.insertBefore(droppedElem, nextElem);
 				recievingParent.removeChild(recievingElement);
 			}

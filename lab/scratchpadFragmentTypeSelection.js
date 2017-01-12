@@ -2,7 +2,7 @@ const TransferContainer = class{
 	constructor(fragment, plugins, formatsToRender){
 		this._fragment = fragment;
 		this._plugins = plugins;
-		this._formatsToRender = formatsToRender
+		this._formatsToRender = formatsToRender;
 	}
 
 	set data(recievedData){
@@ -80,10 +80,10 @@ filterFormats = function(list, sliceIndex, validOptions){
 	return list.filter(function(key){
 		return inCollection(key.split('/')[sliceIndex], validOptions);
 	});
-}
+},
 
 selectFormat = function(fragment){
-	var renderType = Object.keys(fragment.data);
+	let renderType = Object.keys(fragment.data);
 	if(renderType.length > 1){
 		renderType = filterFormats(renderType, 1, config.preferredLanguages);
 		console.log('After language filter: ', renderType);
@@ -101,9 +101,9 @@ getPlugin = function(formatToRender, fragment){
 	return new Promise(function(resolve, reject){
 		document.enchiridion = document.enchiridion || {};
 		document.enchiridion.plugins = document.enchiridion.plugins || {};
-		var fileType = formatToRender[0].split('/')[0];
+		let fileType = formatToRender[0].split('/')[0];
 
-		var plugin = document.enchiridion.plugins[fileType];
+		let plugin = document.enchiridion.plugins[fileType];
 		if(plugin){
 			resolve(new TransferContainer(fragment, plugin, formatToRender));
 		}
@@ -122,8 +122,7 @@ extractContent = function(transferContainer){
 },
 
 generateElements = transferContainer =>
-	transferContainer.plugins.main(transferContainer)
-,
+	transferContainer.plugins.main(transferContainer),
 
 draw = function(content){
 	document.getElementsByTagName('main')[0].insertAdjacentHTML(
@@ -134,12 +133,12 @@ draw = function(content){
 
 // Get plugin, then use the data one and pass it to a renderer
 processFragment = function(fragment) {
-	var formatToRender = selectFormat(fragment);
+	let formatToRender = selectFormat(fragment);
 	getPlugin(formatToRender, fragment)
 	.then(extractContent)
 	.then(generateElements)
 	.then(draw);
-};
+},
 
 test = function(){
 	fragments.map(processFragment);
