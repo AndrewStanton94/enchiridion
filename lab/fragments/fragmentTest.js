@@ -16,13 +16,17 @@ const test = function () {
 	f.fragmentName = 'Blackadder';
 	console.log(`Name: ${f.fragmentName}`);
 
-	f.setData('en/txt', 'Gold');
-	console.log(`Data: ${f.getData('en/txt').data}`);
+	// Set and replace data
+	f.setData('txt/en', 'Beer');
+	console.log(`Data: ${f.getData('txt/en').data}`);
 
-	f.setData('en/txt', 'Beer');
-	console.log(`Data: ${f.getData('en/txt').data}`);
+	f.setData('txt/en', 'Money');
+	f.setData('txt/youtube', 'https://www.youtube.com/watch?v=TkZFuKHXa7w&t=25s');
 
-
+	// Log the data
+	f.formats.forEach(format => console.log(
+		`Data [${format}]: ${f.getData(format).data}`
+	));
 };
 
 window.addEventListener('load', test);

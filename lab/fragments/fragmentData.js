@@ -1,7 +1,7 @@
 const FragmentData = class {
-	constructor(language, dataType){
-		this._language = language;
+	constructor(dataType, language){
 		this._dataType = dataType;
+		this._language = language;
 		this._data;
 		this._meta;
 		// this._schema;
@@ -10,8 +10,8 @@ const FragmentData = class {
 
 	get format(){
 		return {
-			'language': this._language,
-			'dataType': this._dataType
+			'dataType': this._dataType,
+			'language': this._language
 		}
 	}
 

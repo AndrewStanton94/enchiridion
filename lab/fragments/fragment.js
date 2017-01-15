@@ -42,14 +42,17 @@ const Fragment = class{
 		return this._lastChange;
 	}
 
+	get formats(){
+		return Object.keys(this._data);
+	}
+
 	setData(format, data){
 		// touch and infer delta
 		let thisFormat = this.getData(format);
 		if (thisFormat) {
-			console.log('Update');
 			thisFormat.data = data;
-		} else {
-			console.log('New');
+		}
+		else {
 			let f = new FragmentData();
 			f.data = data;
 			this._data[format] = f;
