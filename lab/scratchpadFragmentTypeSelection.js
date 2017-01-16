@@ -52,7 +52,6 @@ selectFormat = function(fragment){
 		renderType = filterFormats(renderType, 0, config.preferredFormats);
 		console.log('After type filter: ', renderType);
 	}
-	console.log(renderType);
 	return renderType;
 },
 
