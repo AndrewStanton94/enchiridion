@@ -3,9 +3,9 @@ define({
 		return transferContainer.fragment.getData(transferContainer.formatToRender).data;
 	},
 	'main': function(transferContainer){
-		var element = document.createElement('p');
+		let element = document.createElement('p');
 		element.textContent = transferContainer.data;
-		return element.outerHTML;
+		return element;
 	},
 	'search': function(fragment){
 		console.log(`search ui plugin for ${fragment}`);

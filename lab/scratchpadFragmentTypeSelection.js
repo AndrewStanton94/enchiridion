@@ -85,10 +85,7 @@ generateElements = transferContainer =>
 	transferContainer.plugins.main(transferContainer),
 
 draw = function(content){
-	document.getElementsByTagName('main')[0].insertAdjacentHTML(
-		'beforeend',
-		content
-	);
+	document.getElementsByTagName('main')[0].insertBefore(content, null);
 },
 
 // Get plugin, then use the data one and pass it to a renderer

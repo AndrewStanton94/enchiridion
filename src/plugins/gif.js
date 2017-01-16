@@ -5,7 +5,7 @@ define({
 	'main': function(transferContainer){
 		var element = document.createElement('img');
 		element.src = transferContainer.data;
-		return element.outerHTML;
+		return element;
 	},
 	'search': function(fragment){
 		console.log(`search ui plugin for ${fragment}`);
