@@ -57,6 +57,7 @@ window.addEventListener('load', function(){
 		else{
 			let parentElement = elem.parentElement;
 			let nextElementSibling = elem.nextElementSibling;
+			let previousElementSibling = elem.previousElementSibling;
 
 			// Check attribute if object doesn't exist return default value
 			// Move elsewhere later?
@@ -69,13 +70,14 @@ window.addEventListener('load', function(){
 				}
 			};
 
-			if(afterAPlaceholder(elem)){
-				// console.log('No consecutive placeholders');
-				// Not going to put a placeholder infront of an existing one
+			if(checkAttr(previousElementSibling, 'id', draggedId, false)
+				|| afterAPlaceholder(elem)){
+				// console.log('Not putting placeholder after dragged element (or another placeholder)');
 			}
 			else{
 				let placeholder = document.createElement('p');
 				placeholder.innerText = `This is a placeholder before ${elem.id}`;
+				console.log(`This is a placeholder before ${elem.id}`);
 				placeholder.classList.add('placeholder');
 				parentElement.insertBefore(placeholder, elem);
 			}
