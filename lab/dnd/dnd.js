@@ -25,7 +25,6 @@ window.addEventListener('load', function(){
 			}
 			elem.classList.add('overlay');
 			target.appendChild(elem);
-			// console.log('Overlay for ', target.id, ' generated');
 		}
 		else {
 			// console.log('No overlay');
@@ -55,20 +54,21 @@ window.addEventListener('load', function(){
 			// console.log('Not placeholdering self');
 		}
 		else{
-			let parentElement = elem.parentElement;
-			let nextElementSibling = elem.nextElementSibling;
-			let previousElementSibling = elem.previousElementSibling;
+			let parentElement = elem.parentElement,
+				nextElementSibling = elem.nextElementSibling,
+				previousElementSibling = elem.previousElementSibling,
 
-			// Check attribute if object doesn't exist return default value
-			// Move elsewhere later?
-			let checkAttr = function(object, attribute, compareAgainst, elseReturn){
-				if (object){
-					return object[attribute] === compareAgainst;
+				// Check attribute if object doesn't exist return default value
+				// Move elsewhere later?
+				checkAttr = function(object, attribute, compareAgainst, elseReturn){
+					if (object){
+						return object[attribute] === compareAgainst;
+					}
+					else {
+						return elseReturn;
+					}
 				}
-				else {
-					return elseReturn;
-				}
-			};
+			;
 
 			if(checkAttr(previousElementSibling, 'id', draggedId, false)
 				|| afterAPlaceholder(elem)){
@@ -77,7 +77,6 @@ window.addEventListener('load', function(){
 			else{
 				let placeholder = document.createElement('p');
 				placeholder.innerText = `This is a placeholder before ${elem.id}`;
-				console.log(`This is a placeholder before ${elem.id}`);
 				placeholder.classList.add('placeholder');
 				parentElement.insertBefore(placeholder, elem);
 			}
@@ -97,20 +96,21 @@ window.addEventListener('load', function(){
 	},
 
 	cleanupFormerTarget = function(){
-		let toPurge = [... document.getElementsByClassName('placeholder')];
-		toPurge.forEach( elem => elem.parentElement.removeChild(elem));
+		let toPurge = [... document.getElementsByClassName('placeholder')],
+			overlays = [... document.getElementsByClassName('overlay')];
 
-		let overlays = [... document.getElementsByClassName('overlay')];
+		toPurge.forEach( elem => elem.parentElement.removeChild(elem));
 		overlays.forEach( elem => elem.parentElement.removeChild(elem));
 	};
 
 	// Loads the data when the drag starts
 	main.addEventListener('dragstart', function(e){
-		let draggedId = e.target.id;
+		let draggedId = e.target.id,
+			draggableElements = [... document.querySelectorAll('[draggable]')];
+
 		e.dataTransfer.setData('text/plain', draggedId);
 		e.dataTransfer.setData('format', e.target.dataset.format);
 
-		let draggableElements = [... document.querySelectorAll('[draggable]')];
 		draggableElements.forEach(elem => {
 			produceOverlay(
 				elem,
@@ -155,9 +155,7 @@ window.addEventListener('load', function(){
 		else {
 			e.preventDefault();
 			let recievingParent = recievingElement.parentElement;
-				// sameFormat = isSameFormat(droppedElem.dataset.format, recievingElement.dataset.format);
 
-			console.log(`${droppedElem.id} was dropped on ${recievingElement.id}`);
 			if(recievingElement.classList.contains('placeholder')){
 				console.log('On a placeholder');
 				let nextElem = recievingElement.nextElementSibling;
