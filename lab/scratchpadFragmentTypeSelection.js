@@ -26,46 +26,6 @@ const TransferContainer = class{
 	}
 },
 
-fragments = [
-	{
-		'data': {
-			'txt/en': 'And here is some text',
-			'txt/gr': {
-				'data': {
-					'txt/en': 'And here is some text'
-				},
-				'fId': '27op4qr4-1175-4766-8429-950rpq802n87'
-			},
-			'gif/en': 'https://unused.url.png'
-		},
-		'fId': '27bc4de4-1175-4766-8429-950ecd802a87'
-	},
-	{
-		'data': {
-			'txt/en': 'And here\'s some different text',
-			'png/en': 'https://a.url.png',
-			'txt/gr': {
-				'data': {
-					'txt/en': 'And here is some text'
-				},
-				'fId': '27op4qr4-1175-4766-8429-950rpq802n87'
-			}
-		},
-		'fId': '27bc4de4-1175-4766-8429-950ecd802a87'
-	},
-	{
-		'data': {
-			'gif/en': 'http://media.tumblr.com/tumblr_mco8geSmzK1r3a4b6.gif',
-			'txt/gr': {
-				'data': {
-					'txt/en': 'And here is some text'
-				},
-				'fId': '27op4qr4-1175-4766-8429-950rpq802n87'
-			}
-		},
-		'fId': '27bc4de4-1175-4766-8429-950ecd802a87'
-	}
-],
 config = {
 	preferredFormats: [ 'txt', 'gif' ],
 	preferredLanguages: [ 'en' ]
@@ -83,7 +43,7 @@ filterFormats = function(list, sliceIndex, validOptions){
 },
 
 selectFormat = function(fragment){
-	let renderType = Object.keys(fragment.data);
+	let renderType = fragment.formats;
 	if(renderType.length > 1){
 		renderType = filterFormats(renderType, 1, config.preferredLanguages);
 		console.log('After language filter: ', renderType);
@@ -141,6 +101,27 @@ processFragment = function(fragment) {
 },
 
 test = function(){
+	let f1 = new Fragment();
+	let f1_1 = new Fragment();
+	let f2 = new Fragment();
+	let f3 = new Fragment();
+
+	f1_1.fragmentId = '27op4qr4-1175-4766-8429-950rpq802n87';
+	f1_1.setData('txt/gr', 'Και εδώ είναι κάποιο κείμενο');
+
+	f1.fragmentId = '27bc4de4-1175-4766-8429-950ecd802a87';
+	f1.setData('txt/en', 'And here is some text');
+	f1.setData('gif/en', 'https://unused.url.png');
+	f1.setData('txt/gr', f1_1);
+
+	f2.fragmentId = '27bc4de4-1175-4766-8429-950ecd802a87';
+	f2.setData('txt/en', 'And here\'s some different text');
+	f2.setData('png/en', 'https://a.url.png');
+
+	f3.fragmentId = '27bc4de4-1175-4766-8429-950ecd802a87';
+	f3.setData('gif/en', 'http://media.tumblr.com/tumblr_mco8geSmzK1r3a4b6.gif');
+
+	let fragments = [f1, f2, f3];
 	fragments.map(processFragment);
 };
 
