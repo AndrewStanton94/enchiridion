@@ -43,7 +43,7 @@ filterFormats = function(list, sliceIndex, validOptions){
 },
 
 selectFormat = function(fragment){
-	let renderType = fragment.formats;
+	let renderType = fragment.getFormats();
 	if(renderType.length > 1){
 		renderType = filterFormats(renderType, 1, config.preferredLanguages);
 		console.log('After language filter: ', renderType);
@@ -97,28 +97,41 @@ processFragment = function(fragment) {
 },
 
 test = function(){
-	let f1 = new Fragment();
-	let f1_1 = new Fragment();
-	let f2 = new Fragment();
-	let f3 = new Fragment();
+	let f1 = {};
+	let f1_1 = {};
+	let f2 = {};
+	let f3 = {};
+	let fragments = [f1, f2, f3, f1_1];
 
-	f1_1.fragmentId = '27op4qr4-1175-4766-8429-950rpq802n87';
+	fragments.map(f => {
+		Object.setPrototypeOf(f, FragmentProto);
+		f.constructor('Me');
+	});
+	fragments.pop();
+
+	f1_1.setFragmentId('27op4qr4-1175');
 	f1_1.setData('txt/gr', 'Και εδώ είναι κάποιο κείμενο');
 
-	f1.fragmentId = '27bc4de4-1175-4766-8429-950ecd802a87';
+	f1.setFragmentId('27bc4de4');
 	f1.setData('txt/en', 'And here is some text');
 	f1.setData('gif/en', 'https://unused.url.png');
 	f1.setData('txt/gr', f1_1);
 
-	f2.fragmentId = '27bc4de4-1175-4766-8429-950ecd802a87';
+	f2.setFragmentId('28bc4de4');
 	f2.setData('txt/en', 'And here\'s some different text');
 	f2.setData('png/en', 'https://a.url.png');
 
-	f3.fragmentId = '27bc4de4-1175-4766-8429-950ecd802a87';
+	f3.setFragmentId('29bc4de4');
 	f3.setData('gif/en', 'http://media.tumblr.com/tumblr_mco8geSmzK1r3a4b6.gif');
 
-	let fragments = [f1, f2, f3];
 	fragments.map(processFragment);
+
+	let jf = JSON.stringify(f1);
+	console.log(jf);
+	let rf = JSON.parse(jf);
+	Object.setPrototypeOf(rf, FragmentProto);
+	console.log(rf);
+	document.f = rf;
 };
 
 window.addEventListener('load', test);
