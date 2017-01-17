@@ -131,17 +131,20 @@ window.addEventListener('load', function(){
 	// Dragged element currently over a suitable container
 	// Give the user cues
 	main.addEventListener('dragenter', function(e){
-		let target = e.target;
 		e.preventDefault();
-		target.classList.add('dropTarget');
+		let target = e.target;
+		if (target.nodeType !== 3) {
+			target.classList.add('dropTarget');
+		}
 	});
 
 	// No longer over that element. Cues now misleading
 	main.addEventListener('dragleave', function(e){
 		e.preventDefault();
 		let target = e.target;
-		// console.log('leave', target.id);
-		target.classList.remove('dropTarget');
+		if (target.nodeType !== 3) {
+			target.classList.remove('dropTarget');
+		}
 	});
 
 	// Element dropped onto a suitable element
