@@ -8,6 +8,25 @@ window.addEventListener('load', function(){
 		return sameFormat;
 	},
 
+	parallelise = function(container, newChild) {
+		console.log(`${newChild.id} as a parallel to ${container.id}`);
+		let recipient = retrieveFragment(container.id, document.fragments);
+		let toAdd = retrieveFragment(newChild.id, document.fragments);
+		console.log('Recipient: ', recipient);
+		console.log('toAdd: ', toAdd);
+	},
+
+	addAlternateFormat = function(container, newChild) {
+		console.log(`${newChild.id} as an alt format of ${container.id}`);
+		let recipient = retrieveFragment(container.id, document.fragments);
+		let toAdd = retrieveFragment(newChild.id, document.fragments);
+		console.log('Recipient: ', recipient);
+		console.log('toAdd: ', toAdd);
+
+		recipient.setData(newChild.dataset.format, toAdd);
+		console.log('Recipient after append: ', recipient);
+	}
+
 	produceOverlay = function(target, draggedId, draggedFormat){
 		let sameFormat = isSameFormat(draggedFormat, target.dataset.format);
 
@@ -167,11 +186,12 @@ window.addEventListener('load', function(){
 			}
 			else {
 				if(recievingElement.classList.contains('overlay')){
+					let container = recievingElement.parentElement.parentElement;
 					if(recievingElement.classList.contains('parallel')){
-						console.log('parallel');
+						parallelise(container, droppedElem);
 					}
 					if(recievingElement.classList.contains('altFormat')){
-						console.log('altFormat');
+						addAlternateFormat(container, droppedElem);
 					}
 				}
 				else{

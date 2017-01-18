@@ -40,6 +40,12 @@ config = {
 	preferredLanguages: [ 'en' ]
 },
 
+retrieveFragment = function(id, fragments){
+	let matchesId = f => f.getFragmentId() === id;
+	let fragment = fragments.find(matchesId);
+	return fragment;
+},
+
 // like python `in`
 inCollection = function(item, collection){
 	return collection.indexOf(item) >= 0;
@@ -116,13 +122,13 @@ test = function(){
 	let f1_1 = {};
 	let f2 = {};
 	let f3 = {};
-	let fragments = [f1, f2, f3, f1_1];
+	document.fragments = [f1, f2, f3, f1_1];
+	let topLevelFragments = [f1, f2, f3];
 
-	fragments.map(f => {
+	document.fragments.map(f => {
 		Object.setPrototypeOf(f, FragmentProto);
 		f.constructor('Me');
 	});
-	fragments.pop();
 
 	f1_1.setFragmentId('27op4qr4-1175');
 	f1_1.setData('txt/gr', 'Και εδώ είναι κάποιο κείμενο');
@@ -139,14 +145,7 @@ test = function(){
 	f3.setFragmentId('29bc4de4');
 	f3.setData('gif/en', 'http://media.tumblr.com/tumblr_mco8geSmzK1r3a4b6.gif');
 
-	fragments.map(processFragment);
-
-	let jf = JSON.stringify(f1);
-	console.log(jf);
-	let rf = JSON.parse(jf);
-	Object.setPrototypeOf(rf, FragmentProto);
-	console.log(rf);
-	document.f = rf;
+	topLevelFragments.map(processFragment);
 };
 
 window.addEventListener('load', test);
