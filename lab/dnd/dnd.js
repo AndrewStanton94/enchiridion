@@ -1,5 +1,5 @@
 window.addEventListener('load', function(){
-	let main = document.getElementById('container'),
+	let main = document.getElementsByTagName('main')[0],
 
 	isSameFormat = function(droppedElem, recievingElement){
 		let sameFormat = droppedElem === recievingElement;
