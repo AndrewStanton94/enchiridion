@@ -3,6 +3,7 @@ const TransferContainer = class{
 		this._fragment = fragment;
 		this._plugins = plugins;
 		this._formatsToRender = formatsToRender;
+		this._element;
 	}
 
 	set data(recievedData){
@@ -23,6 +24,14 @@ const TransferContainer = class{
 
 	get fragment(){
 		return this._fragment;
+	}
+
+	get element(){
+		return this._element;
+	}
+
+	set element(elem){
+		this._element = elem;
 	}
 },
 
@@ -80,10 +89,16 @@ extractContent = function(transferContainer){
 	return transferContainer;
 },
 
-generateElements = transferContainer =>
-	transferContainer.plugins.main(transferContainer),
+generateElements = transferContainer => {
+	transferContainer.element = transferContainer.plugins.main(transferContainer);
+	return transferContainer;
+},
 
-draw = function(content){
+draw = function(transferContainer){
+	let content = transferContainer.element;
+	content.draggable = true;
+	content.id = transferContainer.fragment.getFragmentId();
+	content.dataset.format = transferContainer.formatToRender;
 	document.getElementsByTagName('main')[0].insertBefore(content, null);
 },
 
