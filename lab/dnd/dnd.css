@@ -1,6 +1,5 @@
 main, section, p {
 	position: relative;
-	margin: 1em;
 	border: 2px solid black;
 	padding: 1em;
 }
