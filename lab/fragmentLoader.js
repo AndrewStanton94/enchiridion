@@ -20,11 +20,11 @@ document.enchiridion.fragmentLoader = {
 	selectFormat: function(fragment){
 		let renderType = fragment.getFormats();
 		if(renderType.length > 1){
-			renderType = document.enchiridion.fragmentLoader.filterFormats(renderType, 1, config.preferredLanguages);
+			renderType = document.enchiridion.fragmentLoader.filterFormats(renderType, 1, document.enchiridion.config.preferredLanguages);
 			console.log('After language filter: ', renderType);
 		}
 		if(renderType.length > 1){
-			renderType = document.enchiridion.fragmentLoader.filterFormats(renderType, 0, config.preferredFormats);
+			renderType = document.enchiridion.fragmentLoader.filterFormats(renderType, 0, document.enchiridion.config.preferredFormats);
 			console.log('After type filter: ', renderType);
 		}
 		return renderType;
@@ -32,7 +32,7 @@ document.enchiridion.fragmentLoader = {
 
 	// A promise that will do the plugin lookup
 	getPlugin: function(formatToRender, fragment){
-		return new Promise(function(resolve, reject){
+		return new Promise(function(resolve){
 			let fileType = formatToRender[0]		// First accepted datatype
 								.split('::')[0];		// The format
 			require([fileType], plugin => {

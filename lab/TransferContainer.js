@@ -5,7 +5,7 @@ document.enchiridion.dataStructures.TransferContainer = class{
 		this._fragment = fragment;
 		this._plugins = plugins;
 		this._formatsToRender = formatsToRender;
-		this._element;
+		this._element = null;
 	}
 
 	set data(recievedData){

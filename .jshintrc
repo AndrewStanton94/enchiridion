@@ -77,5 +77,7 @@
     "worker"        : true,    // Web Workers
 
     // Custom Globals
-    "globals"       : {}        // additional predefined global variables
+    "globals"       : {
+		"require": true
+	}        // additional predefined global variables
 }

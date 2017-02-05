@@ -1,9 +1,10 @@
-const config = {
+document.enchiridion = document.enchiridion || {};
+document.enchiridion.config = {
 	preferredFormats: [ 'text/plain', 'image/gif' ],
 	preferredLanguages: [ 'eng' ]
-},
+};
 
-test = function(){
+const test = function(){
 	let f1 = {};
 	let f1_1 = {};
 	let f2 = {};
