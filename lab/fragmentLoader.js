@@ -13,7 +13,7 @@ document.enchiridion.fragmentLoader = {
 
 	filterFormats: function(list, sliceIndex, validOptions){
 		return list.filter(function(key){
-			return document.enchiridion.fragmentLoader.inCollection(key.split('/')[sliceIndex], validOptions);
+			return document.enchiridion.fragmentLoader.inCollection(key.split('::')[sliceIndex], validOptions);
 		});
 	},
 
@@ -33,20 +33,11 @@ document.enchiridion.fragmentLoader = {
 	// A promise that will do the plugin lookup
 	getPlugin: function(formatToRender, fragment){
 		return new Promise(function(resolve, reject){
-			document.enchiridion = document.enchiridion || {};
-			document.enchiridion.plugins = document.enchiridion.plugins || {};
-			let fileType = formatToRender[0].split('/')[0];
-
-			let plugin = document.enchiridion.plugins[fileType];
-			if(plugin){
+			let fileType = formatToRender[0]		// First accepted datatype
+								.split('::')[0];		// The format
+			require([fileType], plugin => {
 				resolve(new document.enchiridion.dataStructures.TransferContainer(fragment, plugin, formatToRender));
-			}
-			else{
-				require([fileType], plugin => {
-					document.enchiridion.plugins[fileType] = plugin;
-					resolve(new document.enchiridion.dataStructures.TransferContainer(fragment, plugin, formatToRender));
-				});
-			}
+			});
 		});
 	},
 

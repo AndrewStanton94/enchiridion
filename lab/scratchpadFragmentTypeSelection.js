@@ -1,6 +1,6 @@
 const config = {
-	preferredFormats: [ 'txt', 'gif' ],
-	preferredLanguages: [ 'en' ]
+	preferredFormats: [ 'text/plain', 'image/gif' ],
+	preferredLanguages: [ 'eng' ]
 },
 
 test = function(){
@@ -17,19 +17,19 @@ test = function(){
 	});
 
 	f1_1.setFragmentId('27op4qr4-1175');
-	f1_1.setData('txt/gr', 'Και εδώ είναι κάποιο κείμενο');
+	f1_1.setData('text/plain::grc', 'Και εδώ είναι κάποιο κείμενο');
 
 	f1.setFragmentId('27bc4de4');
-	f1.setData('txt/en', 'And here is some text');
-	f1.setData('gif/en', 'https://unused.url.png');
-	f1.setData('txt/gr', f1_1);
+	f1.setData('text/plain::eng', 'And here is some text');
+	f1.setData('gif::eng', 'https://unused.url.png');
+	f1.setData('text/plain::grc', f1_1);
 
 	f2.setFragmentId('28bc4de4');
-	f2.setData('txt/en', 'And here\'s some different text');
-	f2.setData('png/en', 'https://a.url.png');
+	f2.setData('text/plain::eng', 'And here\'s some different text');
+	f2.setData('image/png::eng', 'https://a.url.png');
 
 	f3.setFragmentId('29bc4de4');
-	f3.setData('gif/en', 'http://media.tumblr.com/tumblr_mco8geSmzK1r3a4b6.gif');
+	f3.setData('image/gif::eng', 'http://media.tumblr.com/tumblr_mco8geSmzK1r3a4b6.gif');
 
 	topLevelFragments.map(document.enchiridion.fragmentLoader.processFragment);
 };
