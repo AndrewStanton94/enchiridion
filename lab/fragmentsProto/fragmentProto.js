@@ -1,12 +1,14 @@
-const FragmentProto = {
-	constructor: function(creator){
-		this._fragmentName = '';
-		this._fragmentId = null;
+document.enchiridion = document.enchiridion || {};
+document.enchiridion.dataStructures = document.enchiridion.dataStructures || {};
+document.enchiridion.dataStructures.FragmentProto = {
+	constructor: function(creator, baseFragment = null){
+		this._name = '';
+		this._id = null;
 		this._creator = creator;
-		this._createdOn = new Date();
-		this._lastChange = this._createdOn;
 		this._data = {};
-		// this._deltas = ;
+		this._deltas = [];
+		this._baseFragment = baseFragment;
+		this._stretchDepth = 0;
 	},
 
 	setFragmentName: function(name){
@@ -34,12 +36,16 @@ const FragmentProto = {
 		return this._creator;
 	},
 
-	getCreatedOn: function(){
-		return this._createdOn;
+	getDeltas: function(){
+		return this._deltas;
 	},
 
-	getLastChange: function(){
-		return this._lastChange;
+	getBaseFragment: function(){
+		return this._baseFragment;
+	},
+
+	getStretchDepth: function(){
+		return this._stretchDepth;
 	},
 
 	getFormats: function(){

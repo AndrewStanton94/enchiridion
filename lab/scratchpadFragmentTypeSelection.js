@@ -13,7 +13,7 @@ const test = function(){
 	let topLevelFragments = [f1, f2, f3];
 
 	document.fragments.map(f => {
-		Object.setPrototypeOf(f, FragmentProto);
+		Object.setPrototypeOf(f, document.enchiridion.dataStructures.FragmentProto);
 		f.constructor('Me');
 	});
 
