@@ -1,47 +1,4 @@
 document.enchiridion.transclusion = {
-	// data: [
-	// 	{
-	// 		'type': 'standard',
-	// 		'data': 'My hella sublime insights'
-	// 	},
-	// 	{
-	// 		'type': 'transclusion',
-	// 		'data': 'google.com'
-	// 	},
-	// 	{
-	// 		'type': 'parallel',
-	// 		'data':
-	// 		[
-	// 			{
-	// 				'type': 'parallel',
-	// 				'data':
-	// 				[
-	// 					{
-	// 						'type': 'standard',
-	// 						'data': 'My deepest insights'
-	// 					},
-	// 					{
-	// 						'type': 'transclusion',
-	// 						'data': 'google.com/stuff/more'
-	// 					}
-	// 				]
-	// 			},
-	// 			{
-	// 				'type': 'transclusion',
-	// 				'data': 'google.com/stuff'
-	// 			},
-	// 			{
-	// 				'type': 'standard',
-	// 				'data': 'My hella deep insights'
-	// 			},
-	// 			{
-	// 				'type': 'transclusion',
-	// 				'data': 'google.com/stuff'
-	// 			}
-	// 		]
-	// 	}
-	// ],
-
 	createNewTransclusion: params => {
 		params.innerText = params.innerText ? params.innerText : prompt('What do you want to transclude?');
 		let newTransclusion = document.enchiridion.content.createElement('blockquote', {

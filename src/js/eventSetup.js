@@ -79,5 +79,5 @@ window.addEventListener('load', () => {
 		});
 	});
 
-	document.enchiridion.transclusion.init();
+	// document.enchiridion.transclusion.init();
 });
