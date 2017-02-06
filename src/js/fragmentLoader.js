@@ -53,10 +53,14 @@ document.enchiridion.fragmentLoader = {
 
 	draw: function(transferContainer){
 		let content = transferContainer.element;
-		content.draggable = true;
+		// content.draggable = true;
+		[...content.children].forEach((elem, index) => {
+			elem.contentEditable = true;
+			elem.dataset.index = index;
+		});
 		content.id = transferContainer.fragment.getFragmentId();
 		content.dataset.format = transferContainer.formatToRender;
-		document.getElementsByTagName('main')[0].insertBefore(content, null);
+		document.getElementById('transclusionContainer').insertBefore(content, null);
 	},
 
 	// Get plugin, then use the data one and pass it to a renderer
