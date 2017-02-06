@@ -37,28 +37,20 @@ window.addEventListener('load', () => {
 		}
 	});
 
-	document.enchiridion.transclusionContainer.addEventListener(
-		'blur',
+	document.enchiridion.transclusionContainer.addEventListener( 'blur',
 		e => {
-			let data = e.target.textContent;
-			if (data === '') {
-				console.warn('Not posting empty data');
-				return;
-			}
-			console.log(e.target.id, e.target.id === 'newParagraph');
-			if (e.target.id === 'newParagraph') {
-				console.log('posting', data);
-				document.enchiridion.ajax.uploadFragment({'data': data}, e.target);
-			} else {
-				console.log('Put');
-				document.enchiridion.ajax.updateFragment(
-					{
-						data: data,
-						fId: e.target.id
-					},
-					e.target
-				);
-			}
+			let getPlugin = function(formatToRender){
+				return new Promise(function(resolve){
+					let fileType = formatToRender.split('::')[0];
+					require([fileType], plugin => {
+						resolve(plugin);
+					});
+				});
+			};
+
+			getPlugin(e.target.parentElement.dataset.format)
+				.then(plugin => {plugin.change(e);});
+
 		},
 		true
 	);

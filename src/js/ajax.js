@@ -107,7 +107,7 @@ document.enchiridion.ajax = {
 			elem.classList.remove('contentChanged');
 		}
 	) {
-		fetch(`fragments/${data.fId}`, {
+		fetch(`fragments/${data.getFragmentId()}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'

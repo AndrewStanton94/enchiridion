@@ -1,9 +1,9 @@
 define({
 	'data': function(transferContainer){
-		return transferContainer.fragment.getData(transferContainer.formatToRender).data;
+		return transferContainer.fragment.getData(transferContainer.formatToRender);
 	},
 	'main': function(transferContainer){
-		var element = document.createElement('img');
+		let element = document.createElement('img');
 		element.src = transferContainer.data;
 		return element;
 	},
