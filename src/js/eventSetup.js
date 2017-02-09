@@ -48,9 +48,17 @@ window.addEventListener('load', () => {
 				});
 			};
 
-			getPlugin(e.target.parentElement.dataset.format)
-				.then(plugin => {plugin.change(e);});
-
+			let format = e.target.parentElement.dataset.format;
+			if (format) {
+				getPlugin(e.target.parentElement.dataset.format)
+					.then(plugin => {plugin.change(e);});
+			} else {
+				if (e.target.nodeName === 'INPUT') {
+					console.log('Is a form');
+				} else {
+					console.log('This is a new fragment');
+				}
+			}
 		},
 		true
 	);

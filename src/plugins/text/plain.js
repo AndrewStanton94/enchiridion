@@ -19,44 +19,40 @@ define({
 	},
 	'change': function(e) {
 		console.log('Plain text change handler event:');
-		console.log(e);
 		let element = e.target;
 		let parentElement = element.parentElement;
 		let fragment = document.enchiridion.fragments[parentElement.id];
 		console.log(fragment);
 		let index = element.dataset.index;
-		let dataType = fragment.getData(parentElement.dataset.format)[index];
-		let same = dataType === element.textContent;
+		let dataType = fragment.getData(parentElement.dataset.format);
 
-		console.log(`The dataStructure says "${dataType}" and the element says "${element.textContent}.\n\tAre they the same? ${same}`);
-
-		if (same) {
+		if (dataType[index] === element.textContent) {
 			console.log('No change to upload');
 		}
 		else {
+			console.log(`The dataStructure says "${dataType}" and the element says "${element.textContent}".`);
 			dataType[index] = element.textContent;
-			fragment.setData(parentElement.dataset.format,dataType);
+			fragment.setData(parentElement.dataset.format, dataType);
 			console.log(fragment);
-			document.enchiridion.ajax.uploadFragment(fragment, element);
+			document.enchiridion.ajax.uploadFragment(fragment, element, this.changeCallback);
 		}
 			// let data = e.target.textContent;
 			// if (data === '') {
 			// 	console.warn('Not posting empty data');
-			// 	return;
 			// }
 			// console.log(e.target.id, e.target.id === 'newParagraph');
 			// if (e.target.id === 'newParagraph') {
-			// 	console.log('posting', data);
-			// 	document.enchiridion.ajax.uploadFragment({'data': data}, e.target);
+			// 	document.enchiridion.ajax.uploadFragment();
 			// } else {
-			// 	console.log('Put');
-			// 	document.enchiridion.ajax.updateFragment(
-			// 		{
-			// 			data: data,
-			// 			fId: e.target.id
-			// 		},
-			// 		e.target
-			// 	);
+			// 	document.enchiridion.ajax.updateFragment( );
 			// }
+	},
+	'changeCallback': function (serverResponse, fragment, elem) {
+		console.log('serverResponse: ', serverResponse);
+		console.log('fragment: ', fragment);
+		console.log('elem: ', elem);
+		elem.parentElement.id = serverResponse.fragmentId;
+		fragment.setFragmentId(serverResponse.fragmentId);
+		elem.classList.remove('contentChanged');
 	}
 });

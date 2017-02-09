@@ -27,7 +27,7 @@ document.enchiridion.ajax = {
 			}
 		})
 		.then(function(json){
-			serverResponse(json);
+			serverResponse(json, data, elem);
 		})
 		.catch(function(e) {
 			document.enchiridion.ajax.fail(e);

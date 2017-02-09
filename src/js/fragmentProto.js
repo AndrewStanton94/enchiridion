@@ -56,12 +56,12 @@ document.enchiridion.dataStructures.FragmentProto = {
 		// touch and infer delta
 		let thisFormat = this.getData(format);
 		if (thisFormat) {
-			thisFormat = data;
+			console.log(`Updating entry for ${format}: "${data}"`);
 		}
 		else {
-			this._data[format] = data;
+			console.log(`Creating entry for ${format}: ${data}`);
 		}
-		this._lastChange = new Date();
+		this._data[format] = data;
 	},
 
 	getData: function(format){
