@@ -1,14 +1,38 @@
+document.enchiridion.generateOptionInput = function(data, name, addTo) {
+	let listName =  name + 'list',
+		input = document.createElement('input'),
+		datalist = document.createElement('datalist');
+
+	input.name = name;
+	input.placeholder = name;
+	input.setAttribute('list', listName);
+
+	datalist.id = listName;
+	let options =  data.map(option => `<option value="${option}">`).join('');
+	console.log(options);
+	datalist.innerHTML = options;
+	addTo.appendChild(input);
+	addTo.appendChild(datalist);
+};
 window.addEventListener('load', () => {
 	document.enchiridion.transclusionContainer = document.getElementById('transclusionContainer');
 	let addFragmentButton = document.getElementById('addNewFragment');
 
+
 	addFragmentButton.addEventListener('click',  () => {
-		document.enchiridion.transclusion.createParagraph({
-			'container': document.enchiridion.transclusionContainer,
-			'innerText': 'Appended from button',
-			id: 'newParagraph',
-			focus: true
-		});} );
+		let fragmentPlaceholder = document.createElement('section'),
+			p = document.createElement('p'),
+			f = document.createElement('form');
+
+		p.innerText = 'test';
+		p.contentEditable = true;
+		document.enchiridion.generateOptionInput(document.enchiridion.config.preferredLanguages, 'lang', f);
+		document.enchiridion.generateOptionInput(document.enchiridion.config.preferredFormats, 'format', f);
+
+		fragmentPlaceholder.appendChild(p);
+		fragmentPlaceholder.appendChild(f);
+		document.enchiridion.transclusionContainer.appendChild(fragmentPlaceholder);
+	});
 
 	document.enchiridion.transclusionContainer.addEventListener('keypress', e => {
 		e.target.classList.add('contentChanged');
