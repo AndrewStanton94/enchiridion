@@ -20,11 +20,11 @@ document.enchiridion.dataStructures.FragmentProto = {
 	},
 
 	setFragmentId: function(id){
-		if(this._fragmentId){
+		if(this._id){
 			console.warn('ID already set');
 		}
 		else{
-			this._fragmentId = id;
+			this._id = id;
 		}
 	},
 
