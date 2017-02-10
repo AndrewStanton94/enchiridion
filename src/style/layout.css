@@ -19,3 +19,27 @@ main, #main, .parallel {
 	-webkit-flex: 3;
 	flex: 3;
 }
+
+.overlayBackground {
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	background-color:rgba(0, 0, 0, 0.85);
+	z-index:9999;
+	color:white;
+	display: none;
+}
+
+.visible {
+	display: block;
+}
+
+.overlayContent {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px 15px;
+    position:relative;
+    font-weight:bold;
+}
