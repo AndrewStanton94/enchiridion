@@ -54,5 +54,14 @@ define({
 		elem.parentElement.id = serverResponse.fragmentId;
 		fragment.setFragmentId(serverResponse.fragmentId);
 		elem.classList.remove('contentChanged');
+	},
+	'create': function (elem, format) {
+		let fragment = document.enchiridion.castToFragment({});
+		fragment.constructor('me');
+		fragment.setData(format, elem.children[0].innerText);
+		return {
+			fragment,
+			elem
+		};
 	}
 });
