@@ -52,7 +52,8 @@ document.enchiridion.fragmentLoader = {
 	},
 
 	draw: function(transferContainer){
-		let content = transferContainer.element;
+		let content = transferContainer.element,
+			newFragment = document.createElement('div');
 		// content.draggable = true;
 		[...content.children].forEach((elem, index) => {
 			elem.contentEditable = true;
@@ -61,6 +62,14 @@ document.enchiridion.fragmentLoader = {
 		content.id = transferContainer.fragment.getFragmentId();
 		content.dataset.format = transferContainer.formatToRender;
 		document.getElementById('transclusionContainer').insertBefore(content, null);
+		newFragment.innerText = 'Create a new fragment here';
+		newFragment.addEventListener('click', e => {
+			console.log('Creating new fragment', e);
+			let placeholder = document.enchiridion.makeFragmentPlaceholder();
+			let toRemove = e.target;
+			toRemove.parentElement.replaceChild(placeholder, toRemove);
+		});
+		content.parentElement.insertBefore(newFragment, content.parentElement.nextSiblingElement);
 	},
 
 	// Get plugin, then use the data one and pass it to a renderer
