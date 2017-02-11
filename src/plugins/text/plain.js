@@ -58,7 +58,7 @@ define({
 	'create': function (elem, format) {
 		let fragment = document.enchiridion.castToFragment({});
 		fragment.constructor('me');
-		fragment.setData(format, elem.children[0].innerText);
+		fragment.setData(format, [elem.children[0].innerText]);
 		return {
 			fragment,
 			elem
