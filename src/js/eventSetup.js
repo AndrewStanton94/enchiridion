@@ -16,6 +16,86 @@ document.enchiridion.generateOptionInput = function(data, name, addTo) {
 	addTo.appendChild(datalist);
 };
 
+document.enchiridion.getDataType = function(form) {
+	let lang = form.querySelector('input[name=lang]').value;
+	let format = form.querySelector('input[name=format]').value;
+	return `${format}::${lang}`;
+};
+
+document.enchiridion.createFragmentEvent = function(e) {
+	let form = e.target.form,
+		placeholderElem = form.parentElement,
+		format = document.enchiridion.getDataType(form);
+
+	console.log(format);
+	document.enchiridion.getPlugin(format)
+		.then(plugin => plugin.create(placeholderElem, format))
+		/// Send data to server
+		.then(data => {
+			return new Promise(function(resolve) {
+				document.enchiridion.ajax.uploadFragment(data.fragment, data.elem, res => {
+					// Add server allocated id and save local copy using it
+					data.fragment.setFragmentId(res.fragmentId);
+					document.enchiridion.fragments[res.fragmentId] = data.fragment;
+					resolve(data.fragment);
+				});
+			});
+		})
+		.then(fragment => {
+			console.log('frg', fragment);
+			document.enchiridion.fragmentLoader.getPlugin([format], fragment)
+				.then(x => {console.log('Has plugin'); return x;})
+				.then(document.enchiridion.fragmentLoader.extractContent)
+				.then(x => {console.log('Extracted content'); return x;})
+				.then(document.enchiridion.fragmentLoader.generateElements)
+				.then(transferContainer => {
+					//Mostly duplication of fragmentLoader.draw
+					let content = transferContainer.element,
+						newFragment = document.createElement('div');
+					[...content.children].forEach((elem, index) => {
+						elem.contentEditable = true;
+						elem.dataset.index = index;
+					});
+					content.id = transferContainer.fragment.getFragmentId();
+					content.dataset.format = transferContainer.formatToRender;
+					placeholderElem.parentElement.replaceChild(transferContainer.element, placeholderElem);
+					newFragment.innerText = 'Create a new fragment here';
+					newFragment.addEventListener('click', e => {
+						console.log('Creating new fragment', e);
+						let placeholder = document.enchiridion.makeFragmentPlaceholder();
+						let toRemove = e.target;
+						toRemove.parentElement.replaceChild(placeholder, toRemove);
+					});
+					content.parentElement.insertBefore(newFragment, content.parentElement.nextSiblingElement);
+				})
+				.catch(e => {throw e;});
+
+		});
+};
+
+document.enchiridion.makeFragmentPlaceholder = function() {
+	let fragmentPlaceholder = document.createElement('section'),
+		p = document.createElement('p'),
+		f = document.createElement('form'),
+		button = document.createElement('button');
+
+	p.innerText = 'test';
+	p.contentEditable = true;
+	button.innerText = 'Press to create fragment';
+	button.name = 'createFragment';
+	button.type = 'button';
+	fragmentPlaceholder.classList.add('overlayContent');
+
+	document.enchiridion.generateOptionInput(document.enchiridion.config.preferredLanguages, 'lang', f);
+	document.enchiridion.generateOptionInput(document.enchiridion.config.preferredFormats, 'format', f);
+	f.appendChild(button);
+	fragmentPlaceholder.appendChild(p);
+	fragmentPlaceholder.appendChild(f);
+
+	f.addEventListener('click', e => document.enchiridion.createFragmentEvent(e) );
+	return fragmentPlaceholder;
+};
+
 document.enchiridion.getPlugin = function(formatToRender){
 	return new Promise(function(resolve){
 		let fileType = formatToRender.split('::')[0];
@@ -35,64 +115,8 @@ window.addEventListener('load', () => {
 
 
 	addFragmentButton.addEventListener('click',  () => {
-		let fragmentPlaceholder = document.createElement('section'),
-			p = document.createElement('p'),
-			f = document.createElement('form');
-
-		p.innerText = 'test';
-		p.contentEditable = true;
-		document.enchiridion.generateOptionInput(document.enchiridion.config.preferredLanguages, 'lang', f);
-		document.enchiridion.generateOptionInput(document.enchiridion.config.preferredFormats, 'format', f);
-		let button = document.createElement('button');
-		button.innerText = 'Press to create fragment';
-		button.name = 'createFragment';
-		button.type = 'button';
-		f.appendChild(button);
-
-		f.addEventListener('click', e => {
-			let form = e.target.form;
-				// creationElem = form.parentElement.parentElement;
-
-			let getDataType = function(form) {
-				let lang = form.querySelector('input[name=lang]').value;
-				let format = form.querySelector('input[name=format]').value;
-				return `${format}::${lang}`;
-			};
-
-			let format = getDataType(form);
-			console.log(format);
-			if (format !== '::') {
-				document.enchiridion.getPlugin(format)
-					.then(plugin => plugin.create(form.parentElement, format))
-					/// Send data to server
-					.then(data => {
-						return new Promise(function(resolve) {
-							document.enchiridion.ajax.uploadFragment(data.fragment, data.elem, res => {
-								// Add server allocated id and save local copy using it
-								data.fragment.setFragmentId(res.fragmentId);
-								document.enchiridion.fragments[res.fragmentId] = data.fragment;
-								resolve(data.fragment);
-							});
-						});
-					})
-					.then(fragment => {
-						console.log('frg', fragment);
-					});
-					// .then()	// Delete current rendering
-					// .then()	// Draw new version
-			}
-
-			// creationElem.removeChild(creationElem.children[0]);
-			// creationElem.classList.remove('visible');
-		});
-
-
-		fragmentPlaceholder.appendChild(p);
-		fragmentPlaceholder.appendChild(f);
-		fragmentPlaceholder.classList.add('overlayContent');
-		let overlay = document.getElementById('overlay');
-		overlay.appendChild(fragmentPlaceholder);
-		overlay.classList.add('visible');
+		let placeholder = document.enchiridion.makeFragmentPlaceholder();
+		document.enchiridion.transclusionContainer.appendChild(placeholder);
 	});
 
 	document.enchiridion.transclusionContainer.addEventListener('keypress', e => {
@@ -122,7 +146,7 @@ window.addEventListener('load', () => {
 		}
 	});
 
-	document.enchiridion.transclusionContainer.addEventListener( 'blur',
+	document.enchiridion.transclusionContainer.addEventListener('blur',
 		e => {
 
 			let format = e.target.parentElement.dataset.format;
