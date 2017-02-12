@@ -7,6 +7,12 @@ document.enchiridion.fragmentUtils = {
 		return `${format}::${lang}`;
 	},
 
+	validateDataType: function(dataType) {
+		let re = /\w+::\w+/;
+		return dataType
+			&& (dataType.match(re) !== null);
+	},
+
 	//	When the form is submitted:
 	//		Load fragment plugin
 	//		Create a fragment
@@ -17,31 +23,33 @@ document.enchiridion.fragmentUtils = {
 			format = document.enchiridion.fragmentUtils.getDataType(form);
 
 		console.log(format);
-		document.enchiridion.getPlugin(format)
-			.then(plugin => plugin.create(placeholderElem, format))
-			/// Send data to server
-			.then(data => {
-				return new Promise(function(resolve) {
-					document.enchiridion.ajax.uploadFragment(data.fragment, data.elem, res => {
-						// Add server allocated id and save local copy using it
-						data.fragment.setFragmentId(res.fragmentId);
-						document.enchiridion.fragments[res.fragmentId] = data.fragment;
-						resolve(data.fragment);
+		if (document.enchiridion.fragmentUtils.validateDataType(format)) {
+			document.enchiridion.getPlugin(format)
+				.then(plugin => plugin.create(placeholderElem, format))
+				/// Send data to server
+				.then(data => {
+					return new Promise(function(resolve) {
+						document.enchiridion.ajax.uploadFragment(data.fragment, data.elem, res => {
+							// Add server allocated id and save local copy using it
+							data.fragment.setFragmentId(res.fragmentId);
+							document.enchiridion.fragments[res.fragmentId] = data.fragment;
+							resolve(data.fragment);
+						});
 					});
+				})
+				.then(fragment => {
+					console.log('frg', fragment);
+					document.enchiridion.fragmentLoader.getPlugin([format], fragment)
+						.then(document.enchiridion.fragmentLoader.extractContent)
+						.then(document.enchiridion.fragmentLoader.generateElements)
+						.then(transferContainer => {
+							placeholderElem.parentElement.replaceChild(transferContainer.element, placeholderElem);
+							return transferContainer;
+						})
+						.then(document.enchiridion.fragmentLoader.addFragmentGenerationElement)
+						.catch(e => {throw e;});
 				});
-			})
-			.then(fragment => {
-				console.log('frg', fragment);
-				document.enchiridion.fragmentLoader.getPlugin([format], fragment)
-					.then(document.enchiridion.fragmentLoader.extractContent)
-					.then(document.enchiridion.fragmentLoader.generateElements)
-					.then(transferContainer => {
-						placeholderElem.parentElement.replaceChild(transferContainer.element, placeholderElem);
-						return transferContainer;
-					})
-					.then(document.enchiridion.fragmentLoader.addFragmentGenerationElement)
-					.catch(e => {throw e;});
-			});
+		}
 	},
 
 	// Creats a input and used datalist from a given collection
@@ -83,7 +91,7 @@ document.enchiridion.fragmentUtils = {
 		fragmentPlaceholder.appendChild(p);
 		fragmentPlaceholder.appendChild(f);
 
-		f.addEventListener('click', e => document.enchiridion.fragmentUtils.createFragmentEvent(e) );
+		button.addEventListener('click', e => document.enchiridion.fragmentUtils.createFragmentEvent(e));
 		return fragmentPlaceholder;
 	},
 

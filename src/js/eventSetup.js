@@ -13,7 +13,6 @@ window.addEventListener('load', () => {
 	document.enchiridion.transclusionContainer = document.getElementById('transclusionContainer');
 	let addFragmentButton = document.getElementById('addNewFragment');
 
-
 	addFragmentButton.addEventListener('click',  () => {
 		let placeholder = document.enchiridion.fragmentUtils.makeFragmentPlaceholder();
 		document.enchiridion.transclusionContainer.appendChild(placeholder);
@@ -48,9 +47,8 @@ window.addEventListener('load', () => {
 
 	document.enchiridion.transclusionContainer.addEventListener('blur',
 		e => {
-
 			let format = e.target.parentElement.dataset.format;
-			if (format) {
+			if (document.enchiridion.fragmentUtils.validateDataType(format)) {
 				document.enchiridion.getPlugin(e.target.parentElement.dataset.format)
 					.then(plugin => {plugin.change(e);});
 			} else {
