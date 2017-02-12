@@ -56,7 +56,7 @@ define({
 		elem.classList.remove('contentChanged');
 	},
 	'create': function (elem, format) {
-		let fragment = document.enchiridion.castToFragment({});
+		let fragment = document.enchiridion.fragmentUtils.castToFragment({});
 		fragment.constructor('me');
 		fragment.setData(format, [elem.children[0].innerText]);
 		return {

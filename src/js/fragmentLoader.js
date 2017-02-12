@@ -76,7 +76,7 @@ document.enchiridion.fragmentLoader = {
 		newFragment.innerText = 'Create a new fragment here';
 		newFragment.addEventListener('click', e => {
 			console.log('Creating new fragment', e);
-			let placeholder = document.enchiridion.makeFragmentPlaceholder();
+			let placeholder = document.enchiridion.fragmentUtils.makeFragmentPlaceholder();
 			let toRemove = e.target;
 			toRemove.parentElement.replaceChild(placeholder, toRemove);
 		});
