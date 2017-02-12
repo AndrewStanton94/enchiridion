@@ -49,25 +49,9 @@ document.enchiridion.createFragmentEvent = function(e) {
 				.then(x => {console.log('Extracted content'); return x;})
 				.then(document.enchiridion.fragmentLoader.generateElements)
 				.then(transferContainer => {
-					//Mostly duplication of fragmentLoader.draw
-					let content = transferContainer.element,
-						newFragment = document.createElement('div');
-					[...content.children].forEach((elem, index) => {
-						elem.contentEditable = true;
-						elem.dataset.index = index;
-					});
-					content.id = transferContainer.fragment.getFragmentId();
-					content.dataset.format = transferContainer.formatToRender;
 					placeholderElem.parentElement.replaceChild(transferContainer.element, placeholderElem);
-					newFragment.innerText = 'Create a new fragment here';
-					newFragment.addEventListener('click', e => {
-						console.log('Creating new fragment', e);
-						let placeholder = document.enchiridion.makeFragmentPlaceholder();
-						let toRemove = e.target;
-						toRemove.parentElement.replaceChild(placeholder, toRemove);
-					});
-					content.parentElement.insertBefore(newFragment, content.parentElement.nextSiblingElement);
 				})
+				.then(document.enchiridion.fragmentLoader.addFragmentGenerationElement)
 				.catch(e => {throw e;});
 
 		});

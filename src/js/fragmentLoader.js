@@ -47,21 +47,32 @@ document.enchiridion.fragmentLoader = {
 	},
 
 	generateElements: transferContainer => {
-		transferContainer.element = transferContainer.plugins.main(transferContainer);
-		return transferContainer;
-	},
+		let content = transferContainer.plugins.main(transferContainer);
 
-	draw: function(transferContainer){
-		let content = transferContainer.element,
-			newFragment = document.createElement('div');
-		// content.draggable = true;
+		// Add id and datatype to element
+		content.id = transferContainer.fragment.getFragmentId();
+		content.dataset.format = transferContainer.formatToRender;
+
+		// Give each fragmnet item an index
 		[...content.children].forEach((elem, index) => {
 			elem.contentEditable = true;
 			elem.dataset.index = index;
 		});
-		content.id = transferContainer.fragment.getFragmentId();
-		content.dataset.format = transferContainer.formatToRender;
-		document.getElementById('transclusionContainer').insertBefore(content, null);
+
+		transferContainer.element = content;
+		return transferContainer;
+	},
+
+	draw: function(transferContainer){
+		document.getElementById('transclusionContainer').insertBefore(transferContainer.element, null);
+		return transferContainer;
+	},
+
+	addFragmentGenerationElement: function(transferContainer) {
+		let content = transferContainer.element,
+			newFragment = document.createElement('div');
+
+		// Click element to create a ui for a new fragment
 		newFragment.innerText = 'Create a new fragment here';
 		newFragment.addEventListener('click', e => {
 			console.log('Creating new fragment', e);
@@ -69,7 +80,8 @@ document.enchiridion.fragmentLoader = {
 			let toRemove = e.target;
 			toRemove.parentElement.replaceChild(placeholder, toRemove);
 		});
-		content.parentElement.insertBefore(newFragment, content.parentElement.nextSiblingElement);
+		console.log(content.nextSiblingElement);
+		content.parentElement.insertBefore(newFragment, content.nextSiblingElement);
 	},
 
 	// Get plugin, then use the data one and pass it to a renderer
@@ -78,6 +90,7 @@ document.enchiridion.fragmentLoader = {
 		document.enchiridion.fragmentLoader.getPlugin(formatToRender, fragment)
 		.then(document.enchiridion.fragmentLoader.extractContent)
 		.then(document.enchiridion.fragmentLoader.generateElements)
-		.then(document.enchiridion.fragmentLoader.draw);
+		.then(document.enchiridion.fragmentLoader.draw)
+		.then(document.enchiridion.fragmentLoader.addFragmentGenerationElement);
 	}
 };
