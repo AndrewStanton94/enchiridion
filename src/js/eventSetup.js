@@ -18,33 +18,6 @@ window.addEventListener('load', () => {
 		document.enchiridion.transclusionContainer.appendChild(placeholder);
 	});
 
-	document.enchiridion.transclusionContainer.addEventListener('keypress', e => {
-		e.target.classList.add('contentChanged');
-		if (e.key === 'Enter') {
-			e.preventDefault();
-			console.log(e);
-			if (e.ctrlKey) {
-				console.log('<C-Enter>');
-			}
-			else if (e.shiftKey) {
-				document.enchiridion.transclusion.createNewTransclusion({
-					'placeAfter': e.target
-				});
-			}
-			else if (e.altKey) {
-				console.log('<M-Enter>');
-			}
-			else {
-				document.enchiridion.transclusion.createParagraph({
-					'placeAfter': e.target,
-					'innerText': 'Write here from <Enter>',
-					id: 'newParagraph',
-					focus: true
-				});
-			}
-		}
-	});
-
 	document.enchiridion.transclusionContainer.addEventListener('blur',
 		e => {
 			let format = e.target.parentElement.dataset.format;
