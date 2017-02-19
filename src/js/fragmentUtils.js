@@ -7,6 +7,8 @@ document.enchiridion.fragmentUtils = {
 		return `${format}::${lang}`;
 	},
 
+	// Dumb letters::letters regex
+	// TODO: Replace this with a check against a list of the plugins available on the server
 	validateDataType: function(dataType) {
 		let re = /\w+::\w+/;
 		return dataType

@@ -1,5 +1,6 @@
 document.enchiridion = document.enchiridion || {};
 document.enchiridion.fragmentLoader = {
+	// Use an ID to get the fragment from a list of fragments
 	retrieveFragment: function(id, fragments){
 		let matchesId = f => f.getFragmentId() === id;
 		let fragment = fragments.find(matchesId);
@@ -11,12 +12,16 @@ document.enchiridion.fragmentLoader = {
 		return collection.indexOf(item) >= 0;
 	},
 
+	// Given the dataTypes of a fragment
+	//		Get the Format or Language (use index)
+	//		Keep values that match the list in validOptions
 	filterFormats: function(list, sliceIndex, validOptions){
 		return list.filter(function(key){
 			return document.enchiridion.fragmentLoader.inCollection(key.split('::')[sliceIndex], validOptions);
 		});
 	},
 
+	// Take a fragment, filter dataTypes by language then format
 	selectFormat: function(fragment){
 		let renderType = fragment.getFormats();
 		if(renderType.length > 1){
@@ -31,6 +36,8 @@ document.enchiridion.fragmentLoader = {
 	},
 
 	// A promise that will do the plugin lookup
+	//	TODO: Move out wrapping in TransferContainer.
+	//		Prevents the duplication of this function to bypass that
 	getPlugin: function(formatToRender, fragment){
 		return new Promise(function(resolve){
 			let fileType = formatToRender[0]		// First accepted datatype
@@ -41,11 +48,13 @@ document.enchiridion.fragmentLoader = {
 		});
 	},
 
+	// Extract data from fragment using the plugin
 	extractContent: function(transferContainer){
 		transferContainer.data = transferContainer.plugins.data(transferContainer);
 		return transferContainer;
 	},
 
+	// Create the elements to contain the data from the fragment dataType
 	generateElements: transferContainer => {
 		let content = transferContainer.plugins.main(transferContainer);
 
@@ -53,7 +62,7 @@ document.enchiridion.fragmentLoader = {
 		content.id = transferContainer.fragment.getFragmentId();
 		content.dataset.format = transferContainer.formatToRender;
 
-		// Give each fragmnet item an index
+		// Give each fragment item an index
 		[...content.children].forEach((elem, index) => {
 			elem.contentEditable = true;
 			elem.dataset.index = index;
@@ -63,11 +72,14 @@ document.enchiridion.fragmentLoader = {
 		return transferContainer;
 	},
 
+	// Append the fragment to the document
 	draw: function(transferContainer){
 		document.getElementById('transclusionContainer').insertBefore(transferContainer.element, null);
 		return transferContainer;
 	},
 
+	// Place an element after the fragment to handle inserting a new fragment
+	// TODO: Consider moving out of the Promise chain
 	addFragmentGenerationElement: function(transferContainer) {
 		let content = transferContainer.element,
 			newFragment = document.createElement('div');
