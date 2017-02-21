@@ -21,7 +21,7 @@ window.addEventListener('load', () => {
 	let addFragmentButton = document.getElementById('addNewFragment');
 	// Click the button to produce a fragment placeholder
 	addFragmentButton.addEventListener('click',  () => {
-		let placeholder = document.enchiridion.fragmentUtils.makeFragmentPlaceholder();
+		let placeholder = document.enchiridion.fragmentUtils.makeFragmentPlaceholder('newDocument');
 		document.enchiridion.transclusionContainer.appendChild(placeholder);
 	});
 

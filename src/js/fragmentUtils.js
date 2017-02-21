@@ -23,20 +23,56 @@ document.enchiridion.fragmentUtils = {
 		let form = e.target.form,
 			placeholderElem = form.parentElement,
 			format = document.enchiridion.fragmentUtils.getDataType(form);
+		let currentPlugin;
 
 		console.log(format);
 		if (document.enchiridion.fragmentUtils.validateDataType(format)) {
 			document.enchiridion.getPlugin(format)
-				.then(plugin => plugin.create(placeholderElem, format))
+				.then(plugin => {
+					currentPlugin = plugin;
+					let fragment = plugin.create()
+						.setData(format, [placeholderElem.children[0].innerText]);
+					return {fragment};
+				})
 				/// Send data to server
 				.then(data => {
 					return new Promise(function(resolve) {
 						document.enchiridion.ajax.uploadFragment(data.fragment, data.elem, res => {
 							// Add server allocated id and save local copy using it
-							data.fragment.setFragmentId(res.fragmentId);
-							document.enchiridion.fragments[res.fragmentId] = data.fragment;
-							resolve(data.fragment);
+							let {fragment} = data;
+							fragment.setFragmentId(res.fragmentId);
+							document.enchiridion.fragments[res.fragmentId] = fragment;
+							resolve(fragment);
 						});
+					});
+				})
+				.then(fragment => {
+					return new Promise(function(resolve) {
+						let location = placeholderElem.dataset.placeAfter;
+						console.log('location: ', location );
+						// Do I need to wrap the fragment in another
+						// If so, get, make and upload it
+						if (location === 'newDocument') {
+							let transclusion = {
+								'type': 'transclusion',
+								'id': fragment.getFragmentId(),
+								'dataType': format
+							};
+							console.log('transclusion', transclusion);
+							let container = currentPlugin.create()
+								.setData(format, [transclusion]);
+							console.log('Made container', container);
+
+							document.enchiridion.ajax.uploadFragment(container, undefined, res => {
+								// Add server allocated id and save local copy using it
+								console.log('res container', res);
+								container.setFragmentId(res.fragmentId);
+								document.enchiridion.fragments[res.fragmentId] = container;
+								resolve(container);
+							});
+						} else {
+							resolve(fragment);
+						}
 					});
 				})
 				.then(fragment => {
@@ -74,7 +110,7 @@ document.enchiridion.fragmentUtils = {
 	},
 
 	//	Generate the form for creating a new fragment
-	makeFragmentPlaceholder: function() {
+	makeFragmentPlaceholder: function(placeAfter) {
 		let fragmentPlaceholder = document.createElement('section'),
 			p = document.createElement('p'),
 			f = document.createElement('form'),
@@ -86,6 +122,8 @@ document.enchiridion.fragmentUtils = {
 		button.name = 'createFragment';
 		button.type = 'button';
 		fragmentPlaceholder.classList.add('overlayContent');
+		console.log('Setting placeAfter as', placeAfter);
+		fragmentPlaceholder.dataset.placeAfter = placeAfter;
 
 		document.enchiridion.fragmentUtils.generateOptionInput(document.enchiridion.config.preferredLanguages, 'lang', f);
 		document.enchiridion.fragmentUtils.generateOptionInput(document.enchiridion.config.preferredFormats, 'format', f);

@@ -32,7 +32,7 @@ document.enchiridion.dataStructures.FragmentProto = {
 	},
 
 	getFragmentId: function(){
-		return this._fragmentId;
+		return this._id;
 	},
 
 	getCreator: function(){
