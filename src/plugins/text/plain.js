@@ -55,13 +55,8 @@ define({
 		fragment.setFragmentId(serverResponse.fragmentId);
 		elem.classList.remove('contentChanged');
 	},
-	'create': function (elem, format) {
+	'create': function () {
 		let fragment = document.enchiridion.fragmentUtils.castToFragment({});
-		fragment.constructor('me');
-		fragment.setData(format, [elem.children[0].innerText]);
-		return {
-			fragment,
-			elem
-		};
+		return fragment.constructor('me');
 	}
 });

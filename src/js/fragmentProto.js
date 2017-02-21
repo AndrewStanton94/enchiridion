@@ -9,10 +9,12 @@ document.enchiridion.dataStructures.FragmentProto = {
 		this._deltas = [];
 		this._baseFragment = baseFragment;
 		this._stretchDepth = 0;
+		return this;
 	},
 
 	setFragmentName: function(name){
 		this._fragmentName = name;
+		return this;
 	},
 
 	getFragmentName: function(){
@@ -26,6 +28,7 @@ document.enchiridion.dataStructures.FragmentProto = {
 		else{
 			this._id = id;
 		}
+		return this;
 	},
 
 	getFragmentId: function(){
@@ -56,12 +59,13 @@ document.enchiridion.dataStructures.FragmentProto = {
 		// touch and infer delta
 		let thisFormat = this.getData(format);
 		if (thisFormat) {
-			console.log(`Updating entry for ${format}: "${data}"`);
+			console.log(`Updating entry for ${format}: `, data);
 		}
 		else {
-			console.log(`Creating entry for ${format}: ${data}`);
+			console.log(`Creating entry for ${format}: `, data);
 		}
 		this._data[format] = data;
+		return this;
 	},
 
 	getData: function(format){
