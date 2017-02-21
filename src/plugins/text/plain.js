@@ -6,7 +6,12 @@ define({
 		let tContainer = document.createElement('section');
 		transferContainer.data.forEach(entry => {
 			let element = document.createElement('p');
-			element.textContent = entry;
+			if (entry.type) {
+				console.log('This is a transclusion or filter: ', entry);
+				element.textContent = `${entry.type} of  ${entry.id}`;
+			} else {
+				element.textContent = entry;
+			}
 			tContainer.appendChild(element);
 		});
 		return tContainer;
