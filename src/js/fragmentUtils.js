@@ -100,10 +100,10 @@ document.enchiridion.fragmentUtils = {
 		input.name = name;
 		input.placeholder = name;
 		input.setAttribute('list', listName);
+		input.value = data[0];
 
 		datalist.id = listName;
 		let options =  data.map(option => `<option value="${option}">`).join('');
-		console.log(options);
 		datalist.innerHTML = options;
 		addTo.appendChild(input);
 		addTo.appendChild(datalist);
