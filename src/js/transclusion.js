@@ -11,6 +11,16 @@ document.enchiridion.transclusion = {
 				let fragment = Object.setPrototypeOf(obj, document.enchiridion.dataStructures.FragmentProto);
 				let data = fragment.getData(transclusion.dataType);
 				console.log(data);
+
+				document.enchiridion.fragmentLoader.getPlugin([transclusion.dataType], fragment)
+				.then(document.enchiridion.fragmentLoader.extractContent)
+				.then(document.enchiridion.fragmentLoader.generateElements)
+				.then(transclusionContainer => {
+					console.log(transclusionContainer);
+					return transclusionContainer;
+				})
+				.then(document.enchiridion.fragmentLoader.draw)
+				.then(document.enchiridion.fragmentLoader.addFragmentGenerationElement);
 			}
 		);
 	},
