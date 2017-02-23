@@ -7,8 +7,7 @@ define({
 		transferContainer.data.forEach(entry => {
 			let element = document.createElement('p');
 			if (entry.type) {
-				console.log('This is a transclusion or filter: ', entry);
-				element.textContent = `${entry.type} of  ${entry.id}`;
+				document.enchiridion.transclusion.load(entry, element);
 			} else {
 				element.textContent = entry;
 			}
