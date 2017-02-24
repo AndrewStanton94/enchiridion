@@ -72,7 +72,7 @@ module.exports = function(grunt){
 				tasks: ['copy:jsLib']
 			},
 			jsPlugins: {
-				files: ['src/plugins/*'],
+				files: ['src/plugins/**'],
 				tasks: ['copy:jsPlugins']
 			},
 			css: {
