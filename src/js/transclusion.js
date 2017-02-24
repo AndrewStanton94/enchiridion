@@ -15,11 +15,13 @@ document.enchiridion.transclusion = {
 				document.enchiridion.fragmentLoader.getPlugin([transclusion.dataType], fragment)
 				.then(document.enchiridion.fragmentLoader.extractContent)
 				.then(document.enchiridion.fragmentLoader.generateElements)
-				.then(transclusionContainer => {
-					console.log(transclusionContainer);
-					return transclusionContainer;
+				.then(transferContainer => {
+					element.parentElement.replaceChild(
+						transferContainer.element,
+						element
+					);
+					return transferContainer;
 				})
-				.then(document.enchiridion.fragmentLoader.draw)
 				.then(document.enchiridion.fragmentLoader.addFragmentGenerationElement);
 			}
 		);
