@@ -3,7 +3,14 @@ define({
 		return transferContainer.fragment.getData(transferContainer.formatToRender);
 	},
 	'main': function(transferContainer){
-		let tContainer = document.createElement('section');
+		let tContainer = document.createElement('section'),
+			name = transferContainer.fragment.getFragmentName();
+		console.log('name: ', name);
+		if (name) {
+			let fragmentName = document.createElement('h1');
+			fragmentName.innerText = name;
+			tContainer.appendChild(fragmentName);
+		}
 		transferContainer.data.forEach(entry => {
 			let element = document.createElement('p');
 			if (entry.type) {
