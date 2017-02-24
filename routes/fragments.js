@@ -19,7 +19,7 @@ var aFileReader = function(fileName){
 var aFileWriter = function (content, fileName) {
 	fileName = fileName || require('node-uuid').v4();
 	var fs = require('fs');
-	content.fId = fileName;
+	content._id = fileName;
 	var writeSource = `fragments/${fileName}.json`;
 	fs.writeFile(writeSource,
 		JSON.stringify(content),
