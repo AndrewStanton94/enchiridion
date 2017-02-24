@@ -31,7 +31,10 @@ document.enchiridion.fragmentUtils = {
 				.then(plugin => {
 					currentPlugin = plugin;
 					let fragment = plugin.create()
-						.setData(format, [placeholderElem.children[0].innerText]);
+						.setData(format, [placeholderElem.children[1].innerText]);
+					if (placeholderElem.children[0].innerText !== 'title') {
+						fragment.setFragmentName(placeholderElem.children[0].innerText);
+					}
 					return {fragment};
 				})
 				/// Send data to server
@@ -112,10 +115,13 @@ document.enchiridion.fragmentUtils = {
 	//	Generate the form for creating a new fragment
 	makeFragmentPlaceholder: function(placeAfter) {
 		let fragmentPlaceholder = document.createElement('section'),
+			title = document.createElement('h1'),
 			p = document.createElement('p'),
 			f = document.createElement('form'),
 			button = document.createElement('button');
 
+		title.innerText = 'title';
+		title.contentEditable = true;
 		p.innerText = 'test';
 		p.contentEditable = true;
 		button.innerText = 'Press to create fragment';
@@ -128,6 +134,7 @@ document.enchiridion.fragmentUtils = {
 		document.enchiridion.fragmentUtils.generateOptionInput(document.enchiridion.config.preferredLanguages, 'lang', f);
 		document.enchiridion.fragmentUtils.generateOptionInput(document.enchiridion.config.preferredFormats, 'format', f);
 		f.appendChild(button);
+		fragmentPlaceholder.appendChild(title);
 		fragmentPlaceholder.appendChild(p);
 		fragmentPlaceholder.appendChild(f);
 

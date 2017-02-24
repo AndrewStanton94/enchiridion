@@ -13,12 +13,12 @@ document.enchiridion.dataStructures.FragmentProto = {
 	},
 
 	setFragmentName: function(name){
-		this._fragmentName = name;
+		this._name = name;
 		return this;
 	},
 
 	getFragmentName: function(){
-		return this._fragmentName;
+		return this._name;
 	},
 
 	setFragmentId: function(id){
