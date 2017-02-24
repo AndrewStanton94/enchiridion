@@ -62,4 +62,28 @@ window.addEventListener('load', () => {
 	});
 
 	// document.enchiridion.transclusion.init();
+	// Load fragment if specified in the url
+	let args = location.search.substring(1);
+	if (args) {
+		// [Strings containing an '='] => Object: {pre-equal: post-equal}
+		const stringsToObject = function(acc, val){
+			let [key, value] = val.split('=');
+			acc[key] = value;
+			return acc;
+		};
+		let hashmap = args.split('&').reduce(stringsToObject, {});
+
+		if (hashmap.f) {
+			document.enchiridion.ajax.getFragment(
+				{fId: hashmap.f},
+				fragment => {
+					document.enchiridion.fragmentLoader.processFragment(fragment);
+				}
+			);
+		}
+		else {
+			console.warn('Args don\'t include f');
+		}
+
+	}
 });
