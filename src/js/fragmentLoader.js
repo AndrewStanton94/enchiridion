@@ -61,11 +61,13 @@ document.enchiridion.fragmentLoader = {
 		// Add id and datatype to element
 		content.id = transferContainer.fragment.getFragmentId();
 		content.dataset.format = transferContainer.formatToRender;
+		content.classList.add('fragment');
 
 		// Give each fragment item an index
 		[...content.children].forEach((elem, index) => {
 			elem.contentEditable = true;
 			elem.dataset.index = index;
+			elem.classList.add('fragmentEntry');
 		});
 
 		transferContainer.element = content;
