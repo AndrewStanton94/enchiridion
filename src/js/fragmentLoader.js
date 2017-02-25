@@ -66,10 +66,10 @@ document.enchiridion.fragmentLoader = {
 		// Give each fragment item an index
 		[...content.querySelectorAll('*:not(h1):not(br)')].forEach((elem, index) => {
 			elem.dataset.index = index;
-			elem.classList.add('fragmentEntry');
 		});
 		// Elements are editable
 		[...content.children].forEach((elem) => {
+			elem.classList.add('fragmentEntry');
 			elem.contentEditable = true;
 		});
 
