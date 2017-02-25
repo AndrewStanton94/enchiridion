@@ -8,6 +8,7 @@ define({
 		if (name) {
 			let fragmentName = document.createElement('h1');
 			fragmentName.innerText = name;
+			fragmentName.classList.add('fragmentTitle');
 			tContainer.appendChild(fragmentName);
 		}
 		transferContainer.data.forEach(entry => {
