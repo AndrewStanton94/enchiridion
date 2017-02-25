@@ -23,11 +23,5 @@ document.enchiridion.transclusion = {
 				.then(document.enchiridion.fragmentLoader.addFragmentGenerationElement);
 			}
 		);
-	},
-
-	test: function () {
-		let transclusion = {'type':'transclusion','id':'8958edae-57ca-486f-8eff-3dcda5a021c1','dataType':'text/plain::eng'};
-
-		document.enchiridion.transclusion.load(transclusion, {});
 	}
 };
