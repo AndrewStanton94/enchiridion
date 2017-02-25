@@ -54,7 +54,18 @@ document.enchiridion.ajax = {
 			}
 		})
 		.then(function(json){
-			serverResponse(json);
+			let obj = JSON.parse(json);
+			let fragment = Object.setPrototypeOf(
+				obj,
+				document.enchiridion.dataStructures.FragmentProto
+			);
+			let fragmentId = fragment.getFragmentId();
+			console.log('Fetching and saving fragment', fragment);
+			document.enchiridion.fragments[fragmentId] = fragment;
+			return fragment;
+		})
+		.then(function(fragment){
+			serverResponse(fragment);
 		})
 		.catch(function(e) {
 			document.enchiridion.ajax.fail(e);
@@ -99,7 +110,7 @@ document.enchiridion.ajax = {
 	},
 
 	updateFragment:  function(
-		data,
+		fragment,
 		elem,
 		serverResponse = json => {
 			console.log(json);
@@ -107,12 +118,12 @@ document.enchiridion.ajax = {
 			elem.classList.remove('contentChanged');
 		}
 	) {
-		fetch(`fragments/${data.getFragmentId()}`, {
+		fetch(`fragments/${fragment.getFragmentId()}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(data)
+			body: JSON.stringify(fragment)
 		}).then(function(res) {
 			if (res.ok) {
 				return res.json();
@@ -122,7 +133,7 @@ document.enchiridion.ajax = {
 			}
 		})
 		.then(function(json){
-			serverResponse(json);
+			serverResponse(json, fragment, elem);
 		})
 		.catch(function(e) {
 			document.enchiridion.ajax.fail(e);

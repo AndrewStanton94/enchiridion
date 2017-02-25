@@ -6,9 +6,7 @@ document.enchiridion.transclusion = {
 
 		document.enchiridion.ajax.getFragment(
 			{fId: transclusion.id},
-			json => {
-				let obj = JSON.parse(json);
-				let fragment = Object.setPrototypeOf(obj, document.enchiridion.dataStructures.FragmentProto);
+			fragment => {
 				let data = fragment.getData(transclusion.dataType);
 				console.log(data);
 

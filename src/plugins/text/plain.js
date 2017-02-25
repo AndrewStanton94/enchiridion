@@ -5,7 +5,6 @@ define({
 	'main': function(transferContainer){
 		let tContainer = document.createElement('section'),
 			name = transferContainer.fragment.getFragmentName();
-		console.log('name: ', name);
 		if (name) {
 			let fragmentName = document.createElement('h1');
 			fragmentName.innerText = name;
@@ -29,41 +28,38 @@ define({
 		console.log(`sidebar ui plugin for ${fragment}`);
 	},
 	'change': function(e) {
-		console.log('Plain text change handler event:');
+		console.log('Plain text change handler event:', e);
 		let element = e.target;
 		let parentElement = element.parentElement;
 		let fragment = document.enchiridion.fragments[parentElement.id];
-		console.log(fragment);
-		let index = element.dataset.index;
-		let dataType = fragment.getData(parentElement.dataset.format);
 
-		if (dataType[index] === element.textContent) {
+		let same;
+
+		if (element.classList.contains('fragmentTitle')) {
+			let fName = fragment.getFragmentName();
+			let eName = element.textContent;
+			same = fName === eName;
+			fragment.setFragmentName(eName);
+		} else {
+			let index = element.dataset.index;
+			let dataType = fragment.getData(parentElement.dataset.format);
+			same = dataType[index] === element.textContent;
+			dataType[index] = element.textContent;
+			fragment.setData(parentElement.dataset.format, dataType);
+		}
+
+		if (same) {
 			console.log('No change to upload');
 		}
 		else {
-			console.log(`The dataStructure says "${dataType}" and the element says "${element.textContent}".`);
-			dataType[index] = element.textContent;
-			fragment.setData(parentElement.dataset.format, dataType);
 			console.log(fragment);
-			document.enchiridion.ajax.uploadFragment(fragment, element, this.changeCallback);
+			document.enchiridion.ajax.updateFragment(fragment, element, this.changeCallback);
 		}
-			// let data = e.target.textContent;
-			// if (data === '') {
-			// 	console.warn('Not posting empty data');
-			// }
-			// console.log(e.target.id, e.target.id === 'newParagraph');
-			// if (e.target.id === 'newParagraph') {
-			// 	document.enchiridion.ajax.uploadFragment();
-			// } else {
-			// 	document.enchiridion.ajax.updateFragment( );
-			// }
 	},
 	'changeCallback': function (serverResponse, fragment, elem) {
 		console.log('serverResponse: ', serverResponse);
 		console.log('fragment: ', fragment);
 		console.log('elem: ', elem);
-		elem.parentElement.id = serverResponse.fragmentId;
-		fragment.setFragmentId(serverResponse.fragmentId);
 		elem.classList.remove('contentChanged');
 	},
 	'create': function () {
