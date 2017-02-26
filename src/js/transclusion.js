@@ -7,9 +7,6 @@ document.enchiridion.transclusion = {
 		document.enchiridion.ajax.getFragment(
 			{fId: transclusion.id},
 			fragment => {
-				let data = fragment.getData(transclusion.dataType);
-				console.log(data);
-
 				document.enchiridion.fragmentLoader.getPlugin([transclusion.dataType], fragment)
 				.then(document.enchiridion.fragmentLoader.extractContent)
 				.then(document.enchiridion.fragmentLoader.generateElements)
