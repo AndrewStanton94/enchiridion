@@ -1,6 +1,6 @@
 define({
 	'data': function(transferContainer){
-		return transferContainer.fragment.getData(transferContainer.formatToRender);
+		return transferContainer.fragment.getData(transferContainer.dataTypeToRender);
 	},
 	'main': function(transferContainer){
 		let element = document.createElement('img');

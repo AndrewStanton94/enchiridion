@@ -1,6 +1,6 @@
 define({
 	'data': function(transferContainer){
-		return transferContainer.fragment.getData(transferContainer.formatToRender);
+		return transferContainer.fragment.getData(transferContainer.dataTypeToRender);
 	},
 	'main': function(transferContainer){
 		let tContainer = document.createElement('section'),
@@ -43,10 +43,10 @@ define({
 			fragment.setFragmentName(eName);
 		} else {
 			let index = element.dataset.index;
-			let dataType = fragment.getData(parentElement.dataset.format);
+			let dataType = fragment.getData(parentElement.dataset.dataType);
 			same = dataType[index] === element.textContent;
 			dataType[index] = element.textContent;
-			fragment.setData(parentElement.dataset.format, dataType);
+			fragment.setData(parentElement.dataset.dataType, dataType);
 		}
 
 		if (same) {

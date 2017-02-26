@@ -22,16 +22,15 @@ document.enchiridion.fragmentUtils = {
 	createFragmentEvent: function(e) {
 		let form = e.target.form,
 			placeholderElem = form.parentElement,
-			format = document.enchiridion.fragmentUtils.getDataType(form);
+			dataType = document.enchiridion.fragmentUtils.getDataType(form);
 		let currentPlugin;
 
-		console.log(format);
-		if (document.enchiridion.fragmentUtils.validateDataType(format)) {
-			document.enchiridion.getPlugin(format)
+		if (document.enchiridion.fragmentUtils.validateDataType(dataType)) {
+			document.enchiridion.getPlugin(dataType)
 				.then(plugin => {
 					currentPlugin = plugin;
 					let fragment = plugin.create()
-						.setData(format, [placeholderElem.children[1].innerText]);
+						.setData(dataType, [placeholderElem.children[1].innerText]);
 					if (placeholderElem.children[0].innerText !== 'title') {
 						fragment.setFragmentName(placeholderElem.children[0].innerText);
 					}
@@ -55,15 +54,15 @@ document.enchiridion.fragmentUtils = {
 						console.log('location: ', location );
 						// Do I need to wrap the fragment in another
 						// If so, get, make and upload it
+						let transclusion = {
+							'type': 'transclusion',
+							'id': fragment.getFragmentId(),
+							'dataType': dataType
+						};
+						console.log('transclusion', transclusion);
 						if (location === 'newDocument') {
-							let transclusion = {
-								'type': 'transclusion',
-								'id': fragment.getFragmentId(),
-								'dataType': format
-							};
-							console.log('transclusion', transclusion);
 							let container = currentPlugin.create()
-								.setData(format, [transclusion]);
+								.setData(dataType, [transclusion]);
 							console.log('Made container', container);
 
 							document.enchiridion.ajax.uploadFragment(container, undefined, res => {
@@ -80,7 +79,7 @@ document.enchiridion.fragmentUtils = {
 				})
 				.then(fragment => {
 					console.log('frg', fragment);
-					document.enchiridion.fragmentLoader.getPlugin([format], fragment)
+					document.enchiridion.fragmentLoader.getPlugin([dataType], fragment)
 						.then(document.enchiridion.fragmentLoader.extractContent)
 						.then(document.enchiridion.fragmentLoader.generateElements)
 						.then(transferContainer => {

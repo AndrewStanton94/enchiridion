@@ -3,9 +3,9 @@ document.enchiridion.fragments = document.enchiridion.fragments || {};
 // Get dataType and request plugin that matches the format
 // TODO: there's a duplicate of this in fragmentLoader.
 // 		Make a single one and adapt the calls
-document.enchiridion.getPlugin = function(formatToRender){
+document.enchiridion.getPlugin = function(dataTypeToRender){
 	return new Promise(function(resolve){
-		let fileType = formatToRender.split('::')[0];
+		let fileType = dataTypeToRender.split('::')[0];
 		require([fileType], plugin => {
 			resolve(plugin);
 		});
@@ -29,9 +29,9 @@ window.addEventListener('load', () => {
 	//	If suitable
 	document.enchiridion.transclusionContainer.addEventListener('blur',
 		e => {
-			let format = e.target.parentElement.dataset.format;
-			if (document.enchiridion.fragmentUtils.validateDataType(format)) {
-				document.enchiridion.getPlugin(e.target.parentElement.dataset.format)
+			let dataType = e.target.parentElement.dataset.dataType;
+			if (document.enchiridion.fragmentUtils.validateDataType(dataType)) {
+				document.enchiridion.getPlugin(e.target.parentElement.dataset.dataType)
 					.then(plugin => {plugin.change(e);});
 			} else {
 				if (e.target.nodeName === 'INPUT') {

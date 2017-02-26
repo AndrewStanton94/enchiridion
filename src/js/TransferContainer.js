@@ -1,10 +1,10 @@
 document.enchiridion = document.enchiridion || {};
 document.enchiridion.dataStructures = document.enchiridion.dataStructures || {};
 document.enchiridion.dataStructures.TransferContainer = class{
-	constructor(fragment, plugins, formatsToRender){
+	constructor(fragment, plugins, dataTypesToRender){
 		this._fragment = fragment;
 		this._plugins = plugins;
-		this._formatsToRender = formatsToRender;
+		this._dataTypesToRender = dataTypesToRender;
 		this._element = null;
 	}
 
@@ -20,8 +20,8 @@ document.enchiridion.dataStructures.TransferContainer = class{
 		return this._plugins;
 	}
 
-	get formatToRender(){
-		return this._formatsToRender[0];
+	get dataTypeToRender(){
+		return this._dataTypesToRender[0];
 	}
 
 	get fragment(){

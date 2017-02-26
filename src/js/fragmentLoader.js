@@ -38,12 +38,12 @@ document.enchiridion.fragmentLoader = {
 	// A promise that will do the plugin lookup
 	//	TODO: Move out wrapping in TransferContainer.
 	//		Prevents the duplication of this function to bypass that
-	getPlugin: function(formatToRender, fragment){
+	getPlugin: function(dataTypeToRender, fragment){
 		return new Promise(function(resolve){
-			let fileType = formatToRender[0]		// First accepted datatype
+			let fileType = dataTypeToRender[0]		// First accepted datatype
 								.split('::')[0];		// The format
 			require([fileType], plugin => {
-				resolve(new document.enchiridion.dataStructures.TransferContainer(fragment, plugin, formatToRender));
+				resolve(new document.enchiridion.dataStructures.TransferContainer(fragment, plugin, dataTypeToRender));
 			});
 		});
 	},
@@ -60,7 +60,7 @@ document.enchiridion.fragmentLoader = {
 
 		// Add id and datatype to element
 		content.id = transferContainer.fragment.getFragmentId();
-		content.dataset.format = transferContainer.formatToRender;
+		content.dataset.dataType = transferContainer.dataTypeToRender;
 		content.classList.add('fragment');
 
 		// Give each fragment item an index
@@ -103,8 +103,8 @@ document.enchiridion.fragmentLoader = {
 
 	// Get plugin, then use the data one and pass it to a renderer
 	processFragment: function(fragment) {
-		let formatToRender = document.enchiridion.fragmentLoader.selectFormat(fragment);
-		document.enchiridion.fragmentLoader.getPlugin(formatToRender, fragment)
+		let dataTypeToRender = document.enchiridion.fragmentLoader.selectFormat(fragment);
+		document.enchiridion.fragmentLoader.getPlugin(dataTypeToRender, fragment)
 		.then(document.enchiridion.fragmentLoader.extractContent)
 		.then(document.enchiridion.fragmentLoader.generateElements)
 		.then(document.enchiridion.fragmentLoader.draw)

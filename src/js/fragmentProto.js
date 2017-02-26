@@ -55,21 +55,21 @@ document.enchiridion.dataStructures.FragmentProto = {
 		return Object.keys(this._data);
 	},
 
-	setData: function(format, data){
+	setData: function(dataType, data){
 		// touch and infer delta
-		let thisFormat = this.getData(format);
+		let thisFormat = this.getData(dataType);
 		if (thisFormat) {
-			console.log(`Updating entry for ${format}: `, data);
+			console.log(`Updating entry for ${dataType}: `, data);
 		}
 		else {
-			console.log(`Creating entry for ${format}: `, data);
+			console.log(`Creating entry for ${dataType}: `, data);
 		}
-		this._data[format] = data;
+		this._data[dataType] = data;
 		return this;
 	},
 
-	getData: function(format){
-		let chosenFormat = this._data[format];
+	getData: function(dataType){
+		let chosenFormat = this._data[dataType];
 		if (chosenFormat) {
 			return chosenFormat;
 		} else {
