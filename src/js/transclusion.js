@@ -1,5 +1,13 @@
 document.enchiridion = document.enchiridion || {};
 document.enchiridion.transclusion = {
+	create: function(fragment, dataType = '*'){
+		return {
+			'type': 'transclusion',
+			'id': fragment.getFragmentId(),
+			'dataType': dataType
+		};
+	},
+
 	load: function(transclusion, element) {
 		console.log('This is a transclusion: ', transclusion);
 		element.textContent = `${transclusion.type} of  ${transclusion.id}`;

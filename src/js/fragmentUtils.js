@@ -54,11 +54,7 @@ document.enchiridion.fragmentUtils = {
 						console.log('location: ', location );
 						// Do I need to wrap the fragment in another
 						// If so, get, make and upload it
-						let transclusion = {
-							'type': 'transclusion',
-							'id': fragment.getFragmentId(),
-							'dataType': dataType
-						};
+						let transclusion = document.enchiridion.transclusion.create(fragment, dataType);
 						console.log('transclusion', transclusion);
 						if (location === 'newDocument') {
 							let container = currentPlugin.create()
