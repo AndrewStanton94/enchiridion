@@ -22,8 +22,14 @@ define({
 		});
 		return tContainer;
 	},
-	'search': function(fragment){
-		console.log(`search ui plugin for ${fragment}`);
+	'search': function(transferContainer){
+		let elem = document.createElement('p');
+		let name = transferContainer.fragment.getFragmentName();
+		if (!name) {
+			name = 'Placeholder';
+		}
+		elem.innerText = name;
+		return elem;
 	},
 	'sidebar': function(fragment){
 		console.log(`sidebar ui plugin for ${fragment}`);

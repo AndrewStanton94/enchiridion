@@ -77,9 +77,40 @@ document.enchiridion.fragmentLoader = {
 		return transferContainer;
 	},
 
+	// Create the search result elements
+	generateSearchResult: transferContainer => {
+		let content = transferContainer.plugins.search(transferContainer);
+
+		// Add id and datatype to element
+		content.id = transferContainer.fragment.getFragmentId();
+		content.classList.add('fragment');
+		content.classList.add('searchResult');
+		let activate = document.createElement('span');
+		activate.innerText = 'Click here to select this document';
+		activate.addEventListener('click', e => {
+			console.log(e);
+			document.enchiridion.transclusionContainer.innerHTML = '';
+			document.enchiridion.ajax.getFragment(
+				{fId: e.target.parentElement.id},
+				fragment => {
+					document.enchiridion.fragmentLoader.processFragment(fragment);
+				}
+			);
+		});
+		content.appendChild(activate);
+		transferContainer.element = content;
+		return transferContainer;
+	},
+
 	// Append the fragment to the document
 	draw: function(transferContainer){
 		document.getElementById('transclusionContainer').insertBefore(transferContainer.element, null);
+		return transferContainer;
+	},
+
+	// Append the fragment to the document
+	drawSearchResult: function(transferContainer){
+		document.getElementById('searchResults').insertBefore(transferContainer.element, null);
 		return transferContainer;
 	},
 
@@ -109,5 +140,13 @@ document.enchiridion.fragmentLoader = {
 		.then(document.enchiridion.fragmentLoader.generateElements)
 		.then(document.enchiridion.fragmentLoader.draw)
 		.then(document.enchiridion.fragmentLoader.addFragmentGenerationElement);
+	},
+
+	// Get plugin, then use the data one and pass it to a renderer
+	processSearchResult: function(fragment) {
+		let dataTypeToRender = document.enchiridion.fragmentLoader.selectFormat(fragment);
+		document.enchiridion.fragmentLoader.getPlugin(dataTypeToRender, fragment)
+		.then(document.enchiridion.fragmentLoader.generateSearchResult)
+		.then(document.enchiridion.fragmentLoader.drawSearchResult);
 	}
 };

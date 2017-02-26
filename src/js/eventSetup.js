@@ -51,12 +51,11 @@ window.addEventListener('load', () => {
 		searchResults.innerHTML = '';
 		document.enchiridion.ajax.search({q: e.target.value}, json => {
 			json.results.map(match => {
-				console.log('A match', match);
-				document.enchiridion.transclusion.createParagraph({
-					container: searchResults,
-					innerText: match.data,
-					id: match.fId
-				});
+				let fragment = Object.setPrototypeOf(
+					match,
+					document.enchiridion.dataStructures.FragmentProto
+				);
+				document.enchiridion.fragmentLoader.processSearchResult(fragment);
 			});
 		});
 	});
