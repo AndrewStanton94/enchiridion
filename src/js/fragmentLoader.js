@@ -90,12 +90,7 @@ document.enchiridion.fragmentLoader = {
 		activate.addEventListener('click', e => {
 			console.log(e);
 			document.enchiridion.transclusionContainer.innerHTML = '';
-			document.enchiridion.ajax.getFragment(
-				{fId: e.target.parentElement.id},
-				fragment => {
-					document.enchiridion.fragmentLoader.processFragment(fragment);
-				}
-			);
+			document.enchiridion.fragmentUtils.getAndProcessFragment(e.target.parentElement.id);
 		});
 		content.appendChild(activate);
 		transferContainer.element = content;

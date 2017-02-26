@@ -150,5 +150,14 @@ document.enchiridion.fragmentUtils = {
 	// Set the prototype of a given object
 	castToFragment: function(obj) {
 		return Object.setPrototypeOf(obj, document.enchiridion.dataStructures.FragmentProto);
+	},
+
+	getAndProcessFragment: function(fragmentId){
+		document.enchiridion.ajax.getFragment(
+			{fId: fragmentId},
+			fragment => {
+				document.enchiridion.fragmentLoader.processFragment(fragment);
+			}
+		);
 	}
 };

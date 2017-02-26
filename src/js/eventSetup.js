@@ -73,12 +73,7 @@ window.addEventListener('load', () => {
 		let hashmap = args.split('&').reduce(stringsToObject, {});
 
 		if (hashmap.f) {
-			document.enchiridion.ajax.getFragment(
-				{fId: hashmap.f},
-				fragment => {
-					document.enchiridion.fragmentLoader.processFragment(fragment);
-				}
-			);
+			document.enchiridion.fragmentUtils.getAndProcessFragment(hashmap.f);
 		}
 		else {
 			console.warn('Args don\'t include f');
