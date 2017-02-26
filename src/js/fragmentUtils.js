@@ -73,6 +73,12 @@ document.enchiridion.fragmentUtils = {
 								resolve(container);
 							});
 						} else {
+							let containerId = placeholderElem.parentElement.id,
+								containerFragment = document.enchiridion.fragments[containerId];
+							let data = containerFragment.getData(dataType);
+							data.push(transclusion);
+							containerFragment.setData(dataType, data);
+							document.enchiridion.ajax.updateFragment(containerFragment, null, x => {console.log(x);});
 							resolve(fragment);
 						}
 					});
