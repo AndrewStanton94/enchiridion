@@ -85,6 +85,7 @@ document.enchiridion.fragmentLoader = {
 		content.id = transferContainer.fragment.getFragmentId();
 		content.classList.add('fragment');
 		content.classList.add('searchResult');
+		content.draggable = true;
 		let activate = document.createElement('span');
 		activate.innerText = 'Click here to select this document';
 		activate.addEventListener('click', e => {

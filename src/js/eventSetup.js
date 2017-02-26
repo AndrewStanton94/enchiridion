@@ -25,6 +25,9 @@ window.addEventListener('load', () => {
 		document.enchiridion.transclusionContainer.appendChild(placeholder);
 	});
 
+
+	document.enchiridion.dnd.prepSearch();
+
 	// When leaving a document element call change plugin
 	//	If suitable
 	document.enchiridion.transclusionContainer.addEventListener('blur',

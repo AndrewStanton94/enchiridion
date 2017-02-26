@@ -75,5 +75,13 @@ document.enchiridion.dataStructures.FragmentProto = {
 		} else {
 			return null;
 		}
+	},
+
+	spliceData: function(dataType, index, toAdd){
+		let data = this.getData(dataType);
+		console.log('Pre splice: ', data);
+		data.splice(index, 0, toAdd);
+		console.log('Post splice: ', data);
+		this.setData(dataType, data);
 	}
 };
