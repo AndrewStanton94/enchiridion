@@ -12,6 +12,11 @@ document.enchiridion.dnd = {
 			.forEach((elem) => {
 				document.enchiridion.dnd.produceAPlaceholder(elem);
 			});
+
+			[... document.enchiridion.transclusionContainer.querySelectorAll('.fragmentEntry')]
+			.forEach((elem) => {
+				document.enchiridion.dnd.produceAPlaceholder(elem);
+			});
 		});
 
 		document.enchiridion.transclusionContainer.addEventListener('drop', e =>{
