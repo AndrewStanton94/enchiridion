@@ -40,6 +40,9 @@ document.enchiridion.ajax = {
 			console.log(json);
 		}
 	) {
+		if (!data.fId) {
+			console.error('Didn\'t pass a fragment id');
+		}
 		fetch(`fragments/${data.fId}`, {
 			method: 'GET',
 			headers: {
