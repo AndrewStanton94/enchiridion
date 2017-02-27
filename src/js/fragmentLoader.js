@@ -91,7 +91,7 @@ document.enchiridion.fragmentLoader = {
 		activate.addEventListener('click', e => {
 			console.log(e);
 			document.enchiridion.transclusionContainer.innerHTML = '';
-			document.enchiridion.fragmentUtils.getAndProcessFragment(e.target.parentElement.id);
+			document.enchiridion.fragmentUtils.getAndProcessFragment(e.target.parentElement.parentElement.id);
 		});
 		content.appendChild(activate);
 		transferContainer.element = content;
