@@ -87,7 +87,7 @@ document.enchiridion.fragmentLoader = {
 		content.classList.add('searchResult');
 		content.draggable = true;
 		let activate = document.createElement('span');
-		activate.innerText = 'Click here to select this document';
+		activate.innerHTML = '<strong>Load this document</strong>';
 		activate.addEventListener('click', e => {
 			console.log(e);
 			document.enchiridion.transclusionContainer.innerHTML = '';
@@ -107,6 +107,12 @@ document.enchiridion.fragmentLoader = {
 	// Append the fragment to the document
 	drawSearchResult: function(transferContainer){
 		document.getElementById('searchResults').insertBefore(transferContainer.element, null);
+		return transferContainer;
+	},
+
+	// Append the fragment to the document
+	drawRecentResult: function(transferContainer){
+		document.getElementById('recentFragments').insertBefore(transferContainer.element, null);
 		return transferContainer;
 	},
 
@@ -144,5 +150,13 @@ document.enchiridion.fragmentLoader = {
 		document.enchiridion.fragmentLoader.getPlugin(dataTypeToRender, fragment)
 		.then(document.enchiridion.fragmentLoader.generateSearchResult)
 		.then(document.enchiridion.fragmentLoader.drawSearchResult);
+	},
+
+	// Get plugin, then use the data one and pass it to a renderer
+	processRecentFragments: function(fragment) {
+		let dataTypeToRender = document.enchiridion.fragmentLoader.selectFormat(fragment);
+		document.enchiridion.fragmentLoader.getPlugin(dataTypeToRender, fragment)
+		.then(document.enchiridion.fragmentLoader.generateSearchResult)
+		.then(document.enchiridion.fragmentLoader.drawRecentResult);
 	}
 };

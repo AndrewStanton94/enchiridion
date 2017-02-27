@@ -1,4 +1,4 @@
-document.enchiridion.fragments = document.enchiridion.fragments || {};
+document.enchiridion = document.enchiridion || {};
 
 // Get dataType and request plugin that matches the format
 // TODO: there's a duplicate of this in fragmentLoader.

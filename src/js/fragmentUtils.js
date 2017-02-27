@@ -43,7 +43,7 @@ document.enchiridion.fragmentUtils = {
 							// Add server allocated id and save local copy using it
 							let {fragment} = data;
 							fragment.setFragmentId(res.fragmentId);
-							document.enchiridion.fragments[res.fragmentId] = fragment;
+							document.enchiridion.fragmentManager.save(fragment, res.fragmentId);
 							resolve(fragment);
 						});
 					});
@@ -65,12 +65,12 @@ document.enchiridion.fragmentUtils = {
 								// Add server allocated id and save local copy using it
 								console.log('res container', res);
 								container.setFragmentId(res.fragmentId);
-								document.enchiridion.fragments[res.fragmentId] = container;
+								document.enchiridion.fragmentManager.save(container, res.fragmentId);
 								resolve(container);
 							});
 						} else {
 							let containerId = placeholderElem.parentElement.id,
-								containerFragment = document.enchiridion.fragments[containerId];
+								containerFragment = document.enchiridion.fragmentManager.get(containerId);
 							let data = containerFragment.getData(dataType);
 							data.push(transclusion);
 							containerFragment.setData(dataType, data);

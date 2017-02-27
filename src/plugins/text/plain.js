@@ -38,7 +38,7 @@ define({
 		console.log('Plain text change handler event:', e);
 		let element = e.target;
 		let parentElement = element.parentElement;
-		let fragment = document.enchiridion.fragments[parentElement.id];
+		let fragment = document.enchiridion.fragmentManager.get(parentElement.id);
 
 		let same;
 

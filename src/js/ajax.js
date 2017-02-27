@@ -59,9 +59,7 @@ document.enchiridion.ajax = {
 				obj,
 				document.enchiridion.dataStructures.FragmentProto
 			);
-			let fragmentId = fragment.getFragmentId();
-			console.log('Fetching and saving fragment', fragment);
-			document.enchiridion.fragments[fragmentId] = fragment;
+			document.enchiridion.fragmentManager.save(fragment);
 			return fragment;
 		})
 		.then(function(fragment){

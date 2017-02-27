@@ -1,4 +1,4 @@
-document.enchiridion.fragments = document.enchiridion.fragments || {};
+document.enchiridion = document.enchiridion || {};
 document.enchiridion.dnd = {
 	prepSearch: function () {
 		let searchResults = document.getElementById('searchResults');
@@ -21,10 +21,10 @@ document.enchiridion.dnd = {
 			if (droppedOnElem.classList.contains('placeholder')) {
 				let parentElement = droppedOnElem.parentElement;
 				let dataType = parentElement.dataset.dataType;
-				let containerFragment = document.enchiridion.fragments[parentElement.id];
+				let containerFragment = document.enchiridion.fragmentManager.get(parentElement.id);
 
 				let idToAdd = e.dataTransfer.getData('text/plain');
-				let fragment = document.enchiridion.fragments[idToAdd];
+				let fragment = document.enchiridion.fragmentManager.get(idToAdd);
 
 				let after = droppedOnElem.dataset.afterElem;
 
