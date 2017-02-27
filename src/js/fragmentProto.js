@@ -73,7 +73,7 @@ document.enchiridion.dataStructures.FragmentProto = {
 		if (chosenFormat) {
 			return chosenFormat;
 		} else {
-			return null;
+			return [];
 		}
 	},
 
