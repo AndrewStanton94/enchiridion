@@ -9,9 +9,6 @@ var index = require('./routes/index');
 var fragments = require('./routes/fragments');
 var users = require('./routes/users');
 
-var search = require('./src/node/search');
-search.init();
-
 var app = express();
 // app.locals.test = true;
 app.locals.lab = true;

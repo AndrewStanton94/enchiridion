@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var mongo = require('../src/node/mongo');
 
 var aFileReader = function(fileName){
 	var fs = require('fs');
@@ -30,23 +31,17 @@ var aFileWriter = function (content, fileName) {
 			}
 			console.log('*** File written successfully');
 			aFileReader(writeSource);
-
-			global.search.wrapper.addData(content);
 		}
 	);
 	return fileName;
 };
 
 router.get('/:id', function (req, res) {
-	var fName = `fragments/${req.params.id}.json`;
-	console.log(fName);
+	console.log(`fragment id ${req.params.id}`);
 
-	require('fs').readFile(fName,
-		'utf8',
-		function(err, data){
-			if(err){
-				throw err;
-			}
+	mongo.get(
+		{_id: req.params.id},
+		function(data){
 			console.log(data);
 			res.json(data);
 		}
@@ -54,22 +49,34 @@ router.get('/:id', function (req, res) {
 });
 
 router.post('/', function(req, res) {
-	console.log('POST fragments/ req.body:', req.body);
-	var fName = aFileWriter(req.body);
-	res.status(201).json({
-		fragmentState: 'created',
-		fragmentId: fName
-	});
+	let data = req.body;
+	console.log('POST fragments/ req.body:', data);
+	var fName = aFileWriter(data);
+	data._id = fName;
+	mongo.create(
+		data,
+		function(result){
+			console.log(result);
+			res.status(201).json({
+				fragmentState: 'created',
+				fragmentId: fName
+			});
+		}
+	);
 });
 
 router.search('/', function (req, res) {
 	console.log('SEARCH fragments/ Searching for', req.body);
-	var ans = global.search.wrapper.doSearch(req.body);
-	res.json({
-		results: ans,
-		start: 0,
-		len: ans.length
-	});
+
+	mongo.search(req.body.q,
+		function(ans){
+			res.json({
+				results: ans,
+				start: 0,
+				len: ans.length
+			});
+		}
+	);
 });
 
 router.put('/:id', function (req, res) {
@@ -78,9 +85,14 @@ router.put('/:id', function (req, res) {
 	console.log('PUT fragments/ req.body:', req.body);
 
 	aFileWriter(req.body, fName);
-	res.status(200).json({
-		fragmentState: 'updated',
-		fragmentId: fName
+	mongo.update(
+		fName,
+		req.body,
+		function(){
+			res.status(200).json({
+				fragmentState: 'updated',
+				fragmentId: fName
+			});
 	});
 });
 
