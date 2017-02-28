@@ -56,10 +56,13 @@ document.enchiridion.ajax = {
 				console.log(res.status);
 			}
 		})
-		.then(function(json){
-			let obj = JSON.parse(json);
+		.then(x => {
+			// Extracting single fragment from array
+			return x[0];
+		})
+		.then(function(object){
 			let fragment = Object.setPrototypeOf(
-				obj,
+				object,
 				document.enchiridion.dataStructures.FragmentProto
 			);
 			document.enchiridion.fragmentManager.save(fragment);
