@@ -139,7 +139,9 @@ document.enchiridion.fragmentUtils = {
 		fragmentPlaceholder.appendChild(p);
 		fragmentPlaceholder.appendChild(f);
 
-		button.addEventListener('click', e => document.enchiridion.fragmentUtils.createFragmentEvent(e));
+		button.addEventListener('click', e => {
+			document.enchiridion.fragmentUtils.createFragmentEvent(e);
+		});
 		return fragmentPlaceholder;
 	},
 
