@@ -86,6 +86,7 @@ module.exports = function(grunt){
 	require('load-grunt-tasks')(grunt);
 
 	// Define tasks
+	grunt.registerTask('install', ['js', 'copy']);
 	grunt.registerTask('js', ['jshint:src', 'concat:js', 'jshint:dest']);
 	grunt.registerTask('css', ['copy:css']);
 	grunt.registerTask('default', ['watch']);
