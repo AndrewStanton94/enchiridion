@@ -12,6 +12,7 @@ My project. A transclusive text editor. Should include stretchtext and non-linea
 Run mongod as admin
 
 ###Run
+`git clone https://github.com/AndrewStanton94/enchiridion.git`
 `npm install && grunt install`
 `npm start`
 Go to `http://localhost:3000/`
