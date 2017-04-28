@@ -13,6 +13,7 @@ Run mongod as admin
 
 ###Run
 `git clone https://github.com/AndrewStanton94/enchiridion.git`
+`git checkout node`
 `npm install && grunt install`
 `npm start`
 Go to `http://localhost:3000/`
