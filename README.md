@@ -13,7 +13,9 @@ Run mongod as admin
 
 ###Run
 `git clone https://github.com/AndrewStanton94/enchiridion.git`
-`git checkout node`
+`cd enchiridion`
+`git checkout webRes`
 `npm install && grunt install`
+`git clone https://github.com/AndrewStanton94/impress.js.git public/impress.js`
 `npm start`
 Go to `http://localhost:3000/`
