@@ -34,16 +34,11 @@ document.enchiridion.ajax = {
 		});
 	},
 
-	getFragment:  function(
-		data,
-		serverResponse = json => {
-			console.log(json);
-		}
-	) {
+	getFragment: function(data) {
 		if (!data.fId) {
 			console.error('Didn\'t pass a fragment id');
 		}
-		fetch(`fragments/${data.fId}`, {
+		return fetch(`../fragments/${data.fId}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -65,11 +60,7 @@ document.enchiridion.ajax = {
 				object,
 				document.enchiridion.dataStructures.FragmentProto
 			);
-			document.enchiridion.fragmentManager.save(fragment);
 			return fragment;
-		})
-		.then(function(fragment){
-			serverResponse(fragment);
 		})
 		.catch(function(e) {
 			document.enchiridion.ajax.fail(e);

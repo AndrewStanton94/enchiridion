@@ -70,7 +70,6 @@ document.enchiridion.fragmentLoader = {
 		// Elements are editable
 		[...content.children].forEach((elem) => {
 			elem.classList.add('fragmentEntry');
-			elem.contentEditable = true;
 		});
 
 		transferContainer.element = content;
